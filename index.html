@@ -70,6 +70,7 @@ a{ color:inherit; }
 h2{ font-family:var(--f-disp); font-weight:700; font-size:clamp(27px,4vw,40px);
     margin:0; line-height:1.35; letter-spacing:-.01em; text-wrap:balance; }
 h3{ font-family:var(--f-disp); font-weight:700; font-size:22px; margin:0; }
+.mobile-break{ display:inline; }
 .note{ color:var(--dust); font-size:15.5px; margin:0; max-width:64ch; line-height:1.8; }
 .note strong{ color:var(--chalk-2); font-weight:500; }
 .hr{ height:1px; background:var(--seam); border:0; margin:0; }
@@ -178,6 +179,47 @@ section > .wrap{ padding-block:clamp(60px,8vw,104px); display:flex; flex-directi
 .domain p{ margin:0; font-size:14.5px; color:var(--chalk-2); line-height:1.75; }
 .domain i{ display:block; width:100%; height:5px; background:var(--c); font-style:normal; margin-top:4px; }
 
+/* ═══ 여섯 원소 마을 ══════════════════════════════════════════════ */
+.element-map{ position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-areas:"wind ice water" ". core ." "earth fire lightning"; gap:12px; }
+.element-map::before{ content:""; position:absolute; left:50%; top:50%; width:min(56vw,620px); aspect-ratio:1;
+  transform:translate(-50%,-50%) rotate(30deg); border:1px solid rgba(185,222,239,.055); pointer-events:none; }
+.element-card{ --element:#b9deef; position:relative; z-index:1; min-height:274px; padding:26px 24px 23px;
+  border:1px solid color-mix(in srgb,var(--element) 24%,var(--seam)); border-radius:2px;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--element) 5%,#1b222a),rgba(16,21,27,.98));
+  box-shadow:0 18px 42px rgba(0,0,0,.16); overflow:hidden; }
+.element-card::after{ content:""; position:absolute; right:-46px; bottom:-62px; width:156px; aspect-ratio:1;
+  border:1px solid color-mix(in srgb,var(--element) 12%,transparent); transform:rotate(45deg); }
+.element-card header{ display:flex; align-items:center; gap:15px; margin-bottom:20px; }
+.element-card h3{ font-family:var(--f-body); font-size:21px; font-weight:650; letter-spacing:-.025em; }
+.element-card h3 small{ display:block; margin-top:3px; color:var(--element); font:500 10px/1.3 var(--f-data); letter-spacing:.12em; text-transform:uppercase; }
+.element-card p{ margin:0; color:var(--chalk-2); font-size:14px; line-height:1.75; }
+.element-card p + p{ margin-top:10px; color:var(--dust); }
+.element-card b{ color:var(--element); font-weight:550; }
+.element-seal{ position:relative; flex:0 0 58px; width:58px; height:66px; filter:drop-shadow(0 0 12px color-mix(in srgb,var(--element) 18%,transparent)); }
+.element-seal::before,.element-seal::after{ content:""; position:absolute; clip-path:polygon(50% 0,92% 25%,92% 71%,67% 100%,67% 80%,76% 66%,76% 34%,50% 18%,24% 34%,24% 66%,33% 80%,33% 100%,8% 71%,8% 25%); }
+.element-seal::before{ inset:0; background:linear-gradient(145deg,#f8fff9 0,var(--element) 36%,color-mix(in srgb,var(--element) 62%,#32424a) 100%); }
+.element-seal::after{ inset:6px; background:#151a20; opacity:.93; }
+.element-seal span{ position:absolute; inset:0; z-index:1; display:grid; place-items:center; color:var(--element);
+  font-family:var(--f-body); font-size:12px; font-weight:650; text-shadow:0 0 14px var(--element); }
+.element-wind{ grid-area:wind; --element:#A5D8C4; }
+.element-ice{ grid-area:ice; --element:#C5DEEA; }
+.element-water{ grid-area:water; --element:#72C6D3; }
+.element-earth{ grid-area:earth; --element:#B09678; }
+.element-fire{ grid-area:fire; --element:#D97752; }
+.element-lightning{ grid-area:lightning; --element:#D8BB63; }
+.element-core{ grid-area:core; position:relative; z-index:2; min-height:205px; display:grid; place-items:center; text-align:center; }
+.element-core img{ width:146px; height:146px; object-fit:contain; filter:drop-shadow(0 18px 32px rgba(0,0,0,.4)); }
+.element-core p{ margin:-14px 0 0; color:var(--dust); font-size:12.5px; line-height:1.6; }
+.element-core b{ color:var(--chalk-2); font-weight:550; }
+.element-ledger{ display:grid; grid-template-columns:repeat(3,1fr); border:1px solid rgba(185,222,239,.14);
+  background:rgba(17,22,28,.86); }
+.element-ledger div{ padding:20px 22px; }
+.element-ledger div + div{ border-left:1px solid rgba(185,222,239,.12); }
+.element-ledger em{ display:block; margin-bottom:8px; color:var(--minas); font:500 9px/1.3 var(--f-data); letter-spacing:.13em; text-transform:uppercase; }
+.element-ledger p{ margin:0; color:var(--chalk-2); font-size:13.5px; line-height:1.7; }
+.element-ledger b{ color:var(--chalk); font-weight:550; }
+
 /* ═══ 루프 4단계 ══════════════════════════════════════════════════ */
 .loop{ display:grid; gap:1px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   background:var(--seam); border:1px solid var(--seam); }
@@ -240,6 +282,21 @@ section > .wrap{ padding-block:clamp(60px,8vw,104px); display:flex; flex-directi
 .sys h3{ font-size:21px; }
 .sys p{ margin:0; font-size:14.5px; color:var(--chalk-2); line-height:1.8; }
 .sys p b{ color:var(--lamp); font-weight:500; }
+.sys ul{ margin:5px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+.sys li{ position:relative; padding-left:17px; color:var(--dust); font-size:13.5px; line-height:1.65; }
+.sys li::before{ content:""; position:absolute; left:1px; top:.65em; width:5px; height:5px; background:var(--minas); transform:rotate(45deg); opacity:.75; }
+.sys li b{ color:var(--chalk-2); font-weight:550; }
+.sys-route{ display:grid; grid-template-columns:repeat(5,1fr); border:1px solid rgba(185,222,239,.15);
+  background:linear-gradient(120deg,rgba(137,231,192,.035),rgba(18,23,29,.96) 34%,rgba(241,227,185,.03)); }
+.route-step{ position:relative; min-height:180px; padding:25px 21px 22px; }
+.route-step + .route-step{ border-left:1px solid rgba(185,222,239,.11); }
+.route-step em{ display:block; color:var(--minas); font:500 10px/1 var(--f-data); letter-spacing:.12em; }
+.route-step strong{ display:block; margin-top:34px; color:var(--chalk); font-family:var(--f-disp); font-size:19px; line-height:1.35; }
+.route-step p{ margin:9px 0 0; color:var(--dust); font-size:13px; line-height:1.7; }
+.route-step::after{ content:""; position:absolute; top:27px; right:20px; width:19px; border-top:1px solid rgba(241,227,185,.35); }
+.systems-subhead{ display:flex; align-items:end; justify-content:space-between; gap:24px; margin-top:8px; }
+.systems-subhead h3{ font-size:clamp(24px,3vw,32px); }
+.systems-subhead p{ max-width:53ch; margin:0; color:var(--dust); font-size:14px; line-height:1.75; text-align:right; }
 
 /* ═══ 역할 안내판 ═════════════════════════════════════════════════ */
 .role-brief{ display:grid; grid-template-columns:minmax(260px,.82fr) minmax(0,1.65fr);
@@ -387,7 +444,7 @@ h3{ letter-spacing:-.02em; }
 .node figcaption span{ font-size:11px; opacity:.78; }
 .node .body{ border-top:1px solid rgba(201,162,39,.16); }
 .sys{ grid-template-columns:repeat(3,1fr); }
-.sys > div{ min-height:240px; justify-content:flex-end; }
+.sys > div{ min-height:320px; justify-content:flex-start; padding-top:64px; }
 .sys em{ position:absolute; top:24px; left:28px; }
 .days{ border-left:1px solid var(--lamp-dim); margin-left:18px; padding-left:clamp(24px,4vw,48px); }
 .day{ grid-template-columns:110px 1fr; position:relative; }
@@ -404,12 +461,22 @@ h3{ letter-spacing:-.02em; }
   .line-head{ grid-template-columns:1fr; gap:10px; }
   .role-brief{ grid-template-columns:1fr; }
   .role-brief__lead{ border-right:0; border-bottom:1px solid rgba(185,222,239,.14); }
+  .element-map{ grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-areas:"core core" "wind ice" "water earth" "fire lightning"; }
+  .element-map::before{ display:none; }
+  .element-core{ min-height:180px; }
+  .element-ledger{ grid-template-columns:1fr; }
+  .element-ledger div + div{ border-left:0; border-top:1px solid rgba(185,222,239,.12); }
+  .sys-route{ grid-template-columns:repeat(2,1fr); }
+  .route-step + .route-step{ border-left:0; }
+  .route-step:nth-child(even){ border-left:1px solid rgba(185,222,239,.11); }
+  .route-step:nth-child(n+3){ border-top:1px solid rgba(185,222,239,.11); }
 }
 @media (max-width:600px){
   body{ font-size:16px; background-image:repeating-linear-gradient(0deg,transparent 0 35px,var(--ink-line) 36px); }
   .nav .wrap{ padding-inline:16px; }
   .nav b::before{ display:none; }
   .nav nav{ gap:18px; }
+  .mobile-break{ display:block; }
   .hero{ min-height:720px; }
   .hero h1{ font-size:clamp(62px,22vw,92px); }
   .hero h1 span{ font-size:10px; letter-spacing:.25em; }
@@ -418,12 +485,21 @@ h3{ letter-spacing:-.02em; }
   .fact{ min-height:150px; padding:20px 18px; }
   .fact p{ display:none; }
   .duo,.domains,.loop,.sys{ grid-template-columns:1fr; }
-  .sys > div{ min-height:210px; }
+  .sys > div{ min-height:auto; }
   .sys > .sys-wide{ min-height:230px; padding-right:28px; }
   .sys > .sys-wide::before{ right:-90px; opacity:.7; }
   .role-brief__steps{ grid-template-columns:1fr; }
   .role-step + .role-step{ border-left:0; border-top:1px solid rgba(185,222,239,.12); }
   .role-step strong{ margin-top:22px; }
+  .element-map{ grid-template-columns:1fr; grid-template-areas:"core" "wind" "ice" "water" "earth" "fire" "lightning"; }
+  .element-card{ min-height:auto; }
+  .element-core{ min-height:160px; }
+  .sys-route{ grid-template-columns:1fr; }
+  .route-step{ min-height:auto; }
+  .route-step:nth-child(even){ border-left:0; }
+  .route-step + .route-step{ border-top:1px solid rgba(185,222,239,.11); }
+  .systems-subhead{ align-items:flex-start; flex-direction:column; }
+  .systems-subhead p{ text-align:left; }
   .nodes{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
   .node figure{ aspect-ratio:2/3; }
   .node .body{ padding:14px 13px 17px; }
@@ -574,6 +650,7 @@ body{
     <b>아르케<i>ARCHE</i></b>
     <nav>
       <a href="#world">세계</a>
+      <a href="#elements">원소</a>
       <a href="#loop">진행</a>
       <a href="#jobs">직업</a>
       <a href="#systems">시스템</a>
@@ -654,6 +731,65 @@ body{
       상점·환전·현상수배·승강문을 맡은 <strong>관리국</strong>에는 사람 대신 오래된 규정만 남아 움직인다.<br>
       <strong>아르케는 왜 스스로 하늘과 지상의 연결을 끊었는가?</strong>
     </p>
+  </div>
+</section>
+
+<section id="elements">
+  <div class="wrap">
+    <div class="head">
+      <p class="tag">Elemental Villages</p>
+      <h2>여섯 원소는<span class="mobile-break"> 여섯 마을에서 배운다</span></h2>
+      <p class="note">
+        물 · 불 · 바람 · 땅 · 번개 · 얼음은 주문의 이름만 바꾸는 장식이 아니다.
+        어느 마을과 관계를 쌓느냐에 따라 전투 방식과 교역품, 필요한 생산 재료가 함께 달라진다.
+      </p>
+    </div>
+
+    <div class="element-map" aria-label="여섯 원소 마을과 아르케의 연결">
+      <article class="element-card element-wind">
+        <header><span class="element-seal" aria-hidden="true"><span>바람</span></span><h3>바람 마을<small>Wind Village</small></h3></header>
+        <p><b>움직이고 길을 만든다.</b> 빠르게 거리를 벌리고, 아군이 오갈 새로운 경로를 만든다.</p>
+        <p>칼바람 · 바람 점프대 · 질풍<br>탐사와 이동을 넓히는 원소</p>
+      </article>
+      <article class="element-card element-ice">
+        <header><span class="element-seal" aria-hidden="true"><span>얼음</span></span><h3>얼음 마을<small>Ice Village</small></h3></header>
+        <p><b>멈추고 붙잡는다.</b> 벽과 냉기를 남겨 적의 움직임을 늦추고 전장을 나눈다.</p>
+        <p>얼음벽 · 서릿길 · 블리자드<br>동물 원물의 보존·냉각 촉매</p>
+      </article>
+      <article class="element-card element-water">
+        <header><span class="element-seal" aria-hidden="true"><span>물</span></span><h3>물 마을<small>Water Village</small></h3></header>
+        <p><b>흐름을 막고 아군을 돕는다.</b> 적을 가두는 동안 회복과 지원으로 팀의 전선을 지킨다.</p>
+        <p>물감옥 · 파도타기 · 범람<br>식물과 섬유를 잇는 수액·이슬 촉매</p>
+      </article>
+
+      <div class="element-core">
+        <img src="assets/arche-symbol-trinity.webp" alt="에메랄드, 블루 펄, 아이보리 오팔이 맞물린 아르케 심볼" loading="lazy">
+        <p>마을에서 익힌 원소는<br><b>아르케의 마법 공방</b>에서 준비한다</p>
+      </div>
+
+      <article class="element-card element-earth">
+        <header><span class="element-seal" aria-hidden="true"><span>땅</span></span><h3>땅 마을<small>Earth Village</small></h3></header>
+        <p><b>버티고 자리를 지킨다.</b> 아군을 보호하고 적의 움직임을 끊어 팀이 설 자리를 만든다.</p>
+        <p>암반 가호 · 포자 · 지진<br>광물 원물을 찾는 채집의 중심</p>
+      </article>
+      <article class="element-card element-fire">
+        <header><span class="element-seal" aria-hidden="true"><span>불</span></span><h3>불 마을<small>Fire Village</small></h3></header>
+        <p><b>크게 터뜨리고 번진다.</b> 한 지점에 화력을 모아 전투의 흐름을 단숨에 바꾼다.</p>
+        <p>화염구 · 불꽃 보호막 · 메테오<br>광물을 금속으로 잇는 열원 촉매</p>
+      </article>
+      <article class="element-card element-lightning">
+        <header><span class="element-seal" aria-hidden="true"><span>번개</span></span><h3>번개 마을<small>Lightning Village</small></h3></header>
+        <p><b>연계를 완성해 끝낸다.</b> 순서를 맞춘 공격이 여러 대상을 타고 흐르며 힘을 키운다.</p>
+        <p>낙뢰 · 전류 · 방전<br>몬스터 정수를 잇는 영기·방전 촉매</p>
+      </article>
+    </div>
+
+    <div class="element-ledger" aria-label="원소를 배우고 준비하는 방법">
+      <div><em>01 · Relationship</em><p><b>마을 퀘스트</b>를 해결해 그 마을과의 관계를 쌓는다.</p></div>
+      <div><em>02 · Learn</em><p>팀원 한 명이 주문을 배우면 팀의 <b>마법 공방</b>이 열린다.</p></div>
+      <div><em>03 · Prepare</em><p>지상에 내려가기 전, 사용할 <b>원소와 주문 두 개</b>를 공방에서 고른다.</p></div>
+    </div>
+    <p class="note">서로 마주 보는 원소는 <strong>바람 ↔ 땅 · 얼음 ↔ 불 · 물 ↔ 번개</strong>. 여섯 마을은 아르케를 중심으로 서로 다른 길과 전략을 만든다.</p>
   </div>
 </section>
 
@@ -962,33 +1098,54 @@ body{
 <section id="systems">
   <div class="wrap">
     <div class="head">
-      <p class="tag">Systems</p>
-      <h2>아르케에서 경험할 수 있는 것들</h2>
+      <p class="tag">Your First Route</p>
+      <h2>접속하면, 이 순서로 시작하면 된다</h2>
       <p class="note">
-        각 기능은 따로 놓인 메뉴가 아니다. 지상에서 얻은 것과 하늘에서 준비한 것이 다음 여정으로 이어진다.
+        처음부터 모든 기능을 이해할 필요는 없다. 하늘 기지를 한 바퀴 둘러보고 지상으로 내려가면,
+        첫 생산과 마을 발견까지 자연스럽게 이어진다.
       </p>
+    </div>
+
+    <div class="sys-route" aria-label="처음 접속한 뒤의 진행 순서">
+      <div class="route-step"><em>01</em><strong>기지를 둘러본다</strong><p>가상창고와 비어 있는 건설지역, 관리 화면의 위치를 먼저 확인한다.</p></div>
+      <div class="route-step"><em>02</em><strong>지상으로 내려간다</strong><p>봉인된 인벤토리 아홉 칸에 기본 도구와 빈자리를 나누어 담는다.</p></div>
+      <div class="route-step"><em>03</em><strong>자원과 마을을 찾는다</strong><p>첫 자재를 모으고 가까운 마을을 발견해 돌아올 길을 만든다.</p></div>
+      <div class="route-step"><em>04</em><strong>봉헌하고 생산한다</strong><p>필요한 물건을 하늘로 보내 분해기를 놓고 첫 생산을 시작한다.</p></div>
+      <div class="route-step"><em>05</em><strong>다음 목표를 고른다</strong><p>과학으로 능력과 시설을 열고, 문화로 가문의 터를 넓힌다.</p></div>
+    </div>
+
+    <div class="systems-subhead">
+      <h3>그다음부터는 팀의 선택이 길을 만든다</h3>
+      <p>마을과 가까워질지, 생산 시설을 늘릴지, 단서를 따라갈지 정한다. 아래 기능들은 서로의 준비와 보상으로 이어진다.</p>
     </div>
     <div class="sys">
       <div><em>Altar &amp; Tribute</em><h3>하늘 제단과 봉헌</h3>
-        <p>지상에서 찾은 물건은 봉헌을 통해서만 아르케로 올라온다. 하늘 제단에 쌓이는 향유는 긴 봉헌 대기 시간을 한 번 앞당긴다.</p></div>
-      <div><em>Estate &amp; Workshop</em><h3>가문의 터와 공방</h3>
-        <p>생산 시설을 배치하고 공방을 연다. 비어 있던 공간은 팀의 선택과 발견이 쌓일수록 살아 있는 터전으로 변한다.</p></div>
-      <div><em>Administration</em><h3>관리국</h3>
-        <p>상점과 환전, 현상수배와 승강문을 맡은 중앙기관. 사람은 거의 없지만 오래된 창구와 규정은 지금도 움직인다.</p></div>
+        <p>지상에서 찾은 물건은 <b>봉헌</b>을 거쳐야 아르케의 가상창고에 들어온다.</p>
+        <ul><li>제한된 적재량 안에서 지금 가장 필요한 물건부터 고른다</li><li>하늘 제단의 <b>향유</b>로 다음 봉헌을 바로 준비한다</li><li>봉헌 주기·슬롯·적재량은 각각 성장시킬 수 있다</li></ul></div>
+      <div><em>Estate &amp; Workshop</em><h3>가문의 터와 생산 시설</h3>
+        <p>가져온 원물은 분해·재련·합성을 거쳐 시설과 장비에 쓰이는 재료가 된다.</p>
+        <ul><li>건설지역이 한정되어 있어 <b>어떤 생산선을 둘지</b> 팀이 정한다</li><li>가상창고에서 목표 수량과 생산 순서를 관리한다</li><li><b>과학은 시설과 능력</b>, <b>문화는 건설 공간</b>을 연다</li></ul></div>
+      <div><em>Administration &amp; Economy</em><h3>관리국과 두 경제</h3>
+        <p>지상에서는 <b>렐</b>을 벌고, 하늘에서는 <b>만능화</b>와 가공품으로 가문의 성장을 이어간다.</p>
+        <ul><li>채집·수렵·낚시로 얻은 원물을 지상 상점에 팔아 렐을 번다</li><li>관리국에서 상점·환전·현상수배와 승강문을 이용한다</li><li>현상수배의 요구품을 살펴 팀의 다음 채집 목표를 정한다</li></ul></div>
       <div><em>Village &amp; Outpost</em><h3>마을과 전초기지</h3>
-        <p>마을과 관계를 맺어 퀘스트와 특산품, 원소 주문을 만난다. 지상에는 각자의 전초기지를 세워 새로운 거점을 만든다.</p></div>
+        <p>마을을 발견하고 퀘스트를 해결하면 새로운 상품·특산품·원소 주문이 열린다.</p>
+        <ul><li>관계를 맺은 마을은 텔레포트와 지상 활동의 거점이 된다</li><li>관계가 깊어질수록 이용할 수 있는 퀘스트와 상품이 늘어난다</li><li>마을 가까이에 <b>개인 전초기지</b>를 세워 특산품을 생산한다</li></ul></div>
       <div><em>Caravan</em><h3>마차 교역</h3>
-        <p>서로 다른 마을의 특산품을 마차에 싣는다. 예고되는 습격에 대비해 화물과 교역로를 지켜야 한다.</p></div>
+        <p>한 마을의 특산품을 다른 마을로 보내 거리와 위험에 맞는 보상을 얻는다.</p>
+        <ul><li>누구나 화물과 목적지, 교역로를 선택해 마차를 보낼 수 있다</li><li>습격이 예고되면 직접 길에 나가 마차를 호위한다</li><li>교역 직업은 같은 거래를 더 유리하고 안전하게 만든다</li></ul></div>
       <div><em>Clue &amp; Trial</em><h3>단서와 시련</h3>
-        <p>랜드마크와 폐허의 단서가 새로운 장소를 가리킨다. 시련에서는 직업 능력과 평소 장비를 내려놓고 같은 조건으로 답을 찾는다.</p></div>
+        <p>마을 퀘스트와 탐사에서 얻은 단서는 숨겨진 장소와 새로운 도전으로 이어진다.</p>
+        <ul><li>단서를 읽고 맞춰 시련으로 이어지는 길을 찾아낸다</li><li>입장하면 평소 장비를 맡기고 허용된 물건만 챙긴다</li><li>직업 능력 없이 모두 같은 조건에서 퍼즐과 기량으로 답을 찾는다</li></ul></div>
       <div><em>Dungeon &amp; Magic</em><h3>던전과 원소 마법</h3>
-        <p>평소 성장시킨 직업과 장비를 그대로 들고 들어간다. 원소 마법은 별도의 스킬 칸을 채워 비전투 직업에도 전투 선택지를 만든다.</p></div>
-      <div><em>Craft &amp; Feast</em><h3>제작과 만찬</h3>
-        <p>대장간과 연금술 공방에서 재료를 직접 다루고, 함께 차린 만찬으로 다음 여정을 준비한다.</p></div>
+        <p>던전에서는 평소 키운 직업과 장비, 마을에서 배운 원소 주문이 모두 이어진다.</p>
+        <ul><li>하늘의 마법 공방에서 원소와 주문 두 개를 미리 고른다</li><li>전투 직업은 전선을 만들고, 다른 직업도 주문으로 역할을 보탠다</li><li>팀의 직업 조합과 장비에 맞춰 공략 방식을 바꾼다</li></ul></div>
+      <div><em>Craft, Field &amp; Feast</em><h3>제작과 농사, 만찬</h3>
+        <p>농사와 제작은 모두에게 열려 있고, 제작 직업은 같은 재료를 더 멀리 끌고 간다.</p>
+        <ul><li>작물을 길러 가공 재료와 요리 재료를 마련한다</li><li>대장간에서는 타이밍으로 장비를, 가마솥에서는 순서와 지식으로 소모품을 만든다</li><li>요리와 만찬으로 다음 탐사와 전투를 준비한다</li></ul></div>
       <div><em>Relics</em><h3>유물과 전시관</h3>
-        <p>지상 곳곳에 숨겨진 고유한 유물을 발견한다. 찾아낸 유물은 장비와 전략에 쓰이고 가문의 전시관에 남는다.</p></div>
-      <div class="sys-wide"><em>Field &amp; Kitchen</em><h3>밭과 주방</h3>
-        <p>농사는 모두에게 열려 있다. 수확한 작물은 하늘의 생산 재료로 다듬거나 연금술 공방과 주방에서 요리와 만찬으로 완성한다.</p></div>
+        <p>지상 곳곳에는 저마다 다른 쓰임을 가진 고유한 유물이 숨겨져 있다.</p>
+        <ul><li>탐사 중 가까워지면 들리는 신호를 따라 위치를 좁힌다</li><li>발견한 유물을 장비와 팀의 전략에 활용한다</li><li>사용하지 않는 유물도 전시관에 남겨 가문의 발견을 기록한다</li></ul></div>
     </div>
   </div>
 </section>
