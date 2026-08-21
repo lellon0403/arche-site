@@ -236,6 +236,34 @@ section > .wrap{ padding-block:clamp(60px,8vw,104px); display:flex; flex-directi
 .sys p{ margin:0; font-size:14.5px; color:var(--chalk-2); line-height:1.8; }
 .sys p b{ color:var(--lamp); font-weight:500; }
 
+/* ═══ 역할 안내판 ═════════════════════════════════════════════════ */
+.role-brief{ display:grid; grid-template-columns:minmax(260px,.82fr) minmax(0,1.65fr);
+  border:1px solid rgba(185,222,239,.18); background:linear-gradient(130deg,rgba(22,29,36,.98),rgba(16,21,27,.98));
+  box-shadow:0 22px 50px rgba(0,0,0,.18); overflow:hidden; }
+.role-brief__lead{ padding:clamp(28px,4vw,42px); border-right:1px solid rgba(185,222,239,.14);
+  background:radial-gradient(circle at 0 0,rgba(137,231,192,.09),transparent 58%); }
+.role-brief__lead em,.role-step em{ display:block; font:500 10px/1.3 var(--f-data);
+  font-style:normal; letter-spacing:.16em; color:var(--minas); text-transform:uppercase; }
+.role-brief__lead h3{ margin-top:22px; font-size:clamp(24px,3vw,34px); line-height:1.35; }
+.role-brief__lead p{ margin:14px 0 0; color:var(--chalk-2); font-size:15px; line-height:1.8; }
+.role-brief__steps{ display:grid; grid-template-columns:repeat(3,1fr); }
+.role-step{ position:relative; padding:clamp(26px,3vw,36px) clamp(22px,2.6vw,32px); }
+.role-step + .role-step{ border-left:1px solid rgba(185,222,239,.12); }
+.role-step::after{ content:""; position:absolute; right:11px; top:11px; width:8px; height:8px;
+  border-top:1px solid rgba(241,227,185,.42); border-right:1px solid rgba(241,227,185,.42); }
+.role-step strong{ display:block; margin-top:34px; color:var(--chalk); font-family:var(--f-disp);
+  font-size:21px; line-height:1.35; }
+.role-step p{ margin:11px 0 0; color:var(--dust); font-size:13.5px; line-height:1.75; }
+.role-step b{ color:var(--chalk-2); font-weight:500; }
+.sys > .sys-wide{ grid-column:1/-1; min-height:190px; padding-right:min(38%,420px);
+  background:
+    linear-gradient(90deg,rgba(137,231,192,.045),transparent 42%),
+    linear-gradient(145deg,rgba(27,34,42,.98),rgba(18,23,29,.98)); }
+.sys > .sys-wide::before{ content:""; position:absolute; right:7%; top:50%; width:min(26vw,260px); aspect-ratio:1;
+  border:1px solid rgba(137,231,192,.13); transform:translateY(-50%) rotate(45deg);
+  box-shadow:0 0 0 22px rgba(185,222,239,.018),0 0 0 44px rgba(241,227,185,.012); }
+.sys > .sys-wide p{ max-width:62ch; }
+
 /* ═══ 7일 ═════════════════════════════════════════════════════════ */
 .days{ display:flex; flex-direction:column; }
 .day{ display:grid; grid-template-columns:96px 1fr; gap:22px; align-items:start;
@@ -369,6 +397,8 @@ h3{ letter-spacing:-.02em; }
   .facts .wrap{ grid-template-columns:repeat(2,1fr); }
   .sys{ grid-template-columns:repeat(2,1fr); }
   .line-head{ grid-template-columns:1fr; gap:10px; }
+  .role-brief{ grid-template-columns:1fr; }
+  .role-brief__lead{ border-right:0; border-bottom:1px solid rgba(185,222,239,.14); }
 }
 @media (max-width:600px){
   body{ font-size:16px; background-image:repeating-linear-gradient(0deg,transparent 0 35px,var(--ink-line) 36px); }
@@ -384,6 +414,11 @@ h3{ letter-spacing:-.02em; }
   .fact p{ display:none; }
   .duo,.domains,.loop,.sys{ grid-template-columns:1fr; }
   .sys > div{ min-height:210px; }
+  .sys > .sys-wide{ min-height:230px; padding-right:28px; }
+  .sys > .sys-wide::before{ right:-90px; opacity:.7; }
+  .role-brief__steps{ grid-template-columns:1fr; }
+  .role-step + .role-step{ border-left:0; border-top:1px solid rgba(185,222,239,.12); }
+  .role-step strong{ margin-top:22px; }
   .nodes{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
   .node figure{ aspect-ratio:2/3; }
   .node .body{ padding:14px 13px 17px; }
@@ -646,9 +681,25 @@ body{
       <p class="tag">Professions</p>
       <h2>좋아하는 일을 더 잘하게 된다</h2>
       <p class="note">
-        운영 · 봉헌 · 채집 · 교역 · 탐사 · 전투 · 제작.
-        일곱 계열의 직업은 각자의 플레이 방식을 강화하고 팀에 새로운 선택지를 더한다.
+        팀원 세 명은 운영 · 봉헌 · 채집 · 교역 · 탐사 · 전투 · 제작 중 서로 다른 계열을 맡는다.
+        한 번 맡은 직업은 7일 동안 함께 성장하며, 던전에서도 그대로 이어진다.
       </p>
+    </div>
+
+    <div class="role-brief" aria-label="직업과 원소 마법, 던전의 관계">
+      <div class="role-brief__lead">
+        <em>Role Ledger / 01</em>
+        <h3>하나의 직업으로<br>7일을 걷는다</h3>
+        <p>처음 맡은 직업은 지상과 하늘, 던전까지 이어진다. 평소 키운 역할과 장비, 팀의 준비가 그대로 전투 방식이 된다.</p>
+      </div>
+      <div class="role-brief__steps">
+        <div class="role-step"><em>01 · Profession</em><strong>직업을 맡는다</strong>
+          <p>팀 안에서 서로 다른 세 계열을 맡고 <b>1차에서 3차까지</b> 성장한다.</p></div>
+        <div class="role-step"><em>02 · Element</em><strong>원소 주문을 익힌다</strong>
+          <p>마을에서 배운 주문은 직업과 별개다. 비어 있는 <b>스킬 칸</b>을 채워 전투 선택지를 넓힌다.</p></div>
+        <div class="role-step"><em>03 · Challenge</em><strong>두 방식으로 도전한다</strong>
+          <p><b>던전에서는 직업 능력을 사용</b>하고, 시련에서는 모두 내려놓은 채 같은 조건으로 도전한다.</p></div>
+      </div>
     </div>
 
     <div class="tabs" role="tablist" id="tabs">
@@ -665,7 +716,7 @@ body{
     <div class="line" id="line-operation">
       <div class="line-head">
         <h3>운영 <i>Operation</i></h3>
-        <p>기록을 읽고 생산과 교역의 흐름을 조율한다</p>
+        <p>상대의 흐름을 정찰하고, 쌓인 기록으로 다음 선택을 조율하는 정보 직업</p>
       </div>
       <div class="nodes">
         <article class="node"><figure><em>1차</em>
@@ -700,7 +751,7 @@ body{
     <div class="line" id="line-tribute" hidden>
       <div class="line-head">
         <h3>봉헌 <i>Tribute</i></h3>
-        <p>더 많은 물자를 더 유연하게 아르케로 올린다</p>
+        <p>일반 봉헌과 별개인 인양으로 지상의 물자를 더 유연하게 올린다</p>
       </div>
       <div class="nodes">
         <article class="node"><figure><em>1차</em>
@@ -909,28 +960,30 @@ body{
       <p class="tag">Systems</p>
       <h2>아르케에서 경험할 수 있는 것들</h2>
       <p class="note">
-        교역과 탐사, 전투와 제작이 서로 이어진다. 세 사람의 선택은 같은 7일을 전혀 다른 여정으로 만든다.
+        각 기능은 따로 놓인 메뉴가 아니다. 지상에서 얻은 것과 하늘에서 준비한 것이 다음 여정으로 이어진다.
       </p>
     </div>
     <div class="sys">
-      <div><em>Seal &amp; Tribute</em><h3>봉인과 봉헌</h3>
-        <p>하늘과 지상의 소지품은 서로 나뉜다. 무엇을 들고 내려갈지 고르고, 찾아낸 물건은 봉헌을 통해 아르케로 올린다.</p></div>
+      <div><em>Altar &amp; Tribute</em><h3>하늘 제단과 봉헌</h3>
+        <p>지상에서 찾은 물건은 봉헌을 통해서만 아르케로 올라온다. 하늘 제단에 쌓이는 향유는 긴 봉헌 대기 시간을 한 번 앞당긴다.</p></div>
       <div><em>Estate &amp; Workshop</em><h3>가문의 터와 공방</h3>
         <p>생산 시설을 배치하고 공방을 연다. 비어 있던 공간은 팀의 선택과 발견이 쌓일수록 살아 있는 터전으로 변한다.</p></div>
       <div><em>Administration</em><h3>관리국</h3>
         <p>상점과 환전, 현상수배와 승강문을 맡은 중앙기관. 사람은 거의 없지만 오래된 창구와 규정은 지금도 움직인다.</p></div>
       <div><em>Village &amp; Outpost</em><h3>마을과 전초기지</h3>
-        <p>마을과 관계를 맺어 퀘스트와 특산품을 만나고, 지상에는 각자의 전초기지를 세워 새로운 거점을 만든다.</p></div>
+        <p>마을과 관계를 맺어 퀘스트와 특산품, 원소 주문을 만난다. 지상에는 각자의 전초기지를 세워 새로운 거점을 만든다.</p></div>
       <div><em>Caravan</em><h3>마차 교역</h3>
         <p>서로 다른 마을의 특산품을 마차에 싣는다. 예고되는 습격에 대비해 화물과 교역로를 지켜야 한다.</p></div>
       <div><em>Clue &amp; Trial</em><h3>단서와 시련</h3>
-        <p>랜드마크와 폐허에서 발견한 단서가 새로운 장소를 가리킨다. 어떤 유물은 세 사람이 함께 푸는 시련 너머에 있다.</p></div>
+        <p>랜드마크와 폐허의 단서가 새로운 장소를 가리킨다. 시련에서는 직업 능력과 평소 장비를 내려놓고 같은 조건으로 답을 찾는다.</p></div>
       <div><em>Dungeon &amp; Magic</em><h3>던전과 원소 마법</h3>
-        <p>직업 능력과 원소 마법을 준비해 던전에 도전한다. 역할과 장비, 선택한 속성이 팀의 전투 방식을 만든다.</p></div>
+        <p>평소 성장시킨 직업과 장비를 그대로 들고 들어간다. 원소 마법은 별도의 스킬 칸을 채워 비전투 직업에도 전투 선택지를 만든다.</p></div>
       <div><em>Craft &amp; Feast</em><h3>제작과 만찬</h3>
         <p>대장간과 연금술 공방에서 재료를 직접 다루고, 함께 차린 만찬으로 다음 여정을 준비한다.</p></div>
       <div><em>Relics</em><h3>유물과 전시관</h3>
         <p>지상 곳곳에 숨겨진 고유한 유물을 발견한다. 찾아낸 유물은 장비와 전략에 쓰이고 가문의 전시관에 남는다.</p></div>
+      <div class="sys-wide"><em>Field &amp; Kitchen</em><h3>밭과 주방</h3>
+        <p>농사는 모두에게 열려 있다. 수확한 작물은 하늘의 생산 재료로 다듬거나 연금술 공방과 주방에서 요리와 만찬으로 완성한다.</p></div>
     </div>
   </div>
 </section>
