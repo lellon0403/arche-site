@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "world": {
+    "name": "아르케 대륙",
+    "seed": 314159265,
+    "minX": -4000,
+    "maxX": 4000,
+    "minZ": -4000,
+    "maxZ": 4000
+  },
+  "villages": [
+    { "id": "light", "label": "중앙 관문 · 빛 마을", "element": "빛", "x": 0, "z": 0, "biome": "중앙 권역", "color": "#E8D77A" },
+    { "id": "fire", "label": "불 마을", "element": "불", "x": 1386, "z": 800, "biome": "화산 봉우리 지대", "color": "#E96B4C" },
+    { "id": "ice", "label": "얼음 마을", "element": "얼음", "x": -1586, "z": 209, "biome": "눈 덮인 비탈 지대", "color": "#B9DEEF" },
+    { "id": "water", "label": "물 마을", "element": "물", "x": -800, "z": 1386, "biome": "자갈 해안 지대", "color": "#5CA9E6" },
+    { "id": "wind", "label": "바람 마을", "element": "바람", "x": 2400, "z": 0, "biome": "고산 고원 지대", "color": "#89E7C0" },
+    { "id": "earth", "label": "땅 마을", "element": "땅", "x": -1732, "z": -1000, "biome": "사바나 고원 지대", "color": "#B58A5A" },
+    { "id": "lightning", "label": "번개 마을", "element": "번개", "x": 800, "z": -1386, "biome": "높은 돌산 지대", "color": "#CDA7FF" }
+  ]
+}

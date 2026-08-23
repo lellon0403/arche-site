@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0E1117">
+<title>아르케 세계 지도 — ARCHE</title>
+<meta name="description" content="아르케 대륙과 원소 마을을 살펴보는 대화형 세계 지도.">
+<link rel="icon" href="favicon.ico?v=1" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--pit:#0E1117;--pit-2:#12161C;--stone:#1A2029;--seam:#2B3441;--lamp:#E8913C;--chalk:#EAE3D6;--chalk-2:#C4BCAC;--dust:#8B8577;--bar-h:58px}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;background:var(--pit);color:var(--chalk)}
+body{font-family:"IBM Plex Mono","Malgun Gothic",monospace}a{color:inherit}
+.mapbar{height:var(--bar-h);display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:1px solid var(--seam);background:rgba(14,17,23,.96)}
+.back{color:var(--chalk);text-decoration:none;font-size:13px;white-space:nowrap;padding:7px 10px;border:1px solid var(--seam);border-radius:4px}
+.back:hover,.back:focus-visible{border-color:var(--lamp);outline:none}
+.title{min-width:0;margin-right:auto;font-family:"Gowun Batang",serif;font-size:18px;white-space:nowrap}.title small{margin-left:9px;color:var(--lamp);font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.2em}.hint{color:var(--dust);font-size:11px;white-space:nowrap}
+.stage{position:relative;height:calc(100% - var(--bar-h));overflow:auto;background:var(--pit)}.mapframe{display:none;width:100%;height:100%;border:0;background:var(--stone)}
+.stage.is-ready{overflow:hidden}.stage.is-ready .mapframe{display:block}.stage.is-ready .preview{display:none}
+.preview{min-height:100%;padding:clamp(26px,5vw,64px) 22px 48px}.preview-inner{width:min(1120px,100%);margin:0 auto}
+.eyebrow{margin:0 0 9px;color:var(--lamp);font-size:10px;letter-spacing:.22em}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:28px}
+.intro h1{font-family:"Gowun Batang",serif;font-size:clamp(29px,5vw,48px);line-height:1.2;margin:0 0 10px}.intro p{max-width:620px;margin:0;color:var(--chalk-2);font:14px/1.8 "Malgun Gothic",sans-serif;word-break:keep-all}
+.status{flex:none;padding:10px 13px;border:1px solid #5b422b;background:#1b1713;color:#e6a25f;font-size:11px;white-space:nowrap}.status::before{content:"";display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:var(--lamp);box-shadow:0 0 10px rgba(232,145,60,.8)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}
+.atlas{position:relative;aspect-ratio:1;border:1px solid #514536;background-color:#171a1c;background-image:linear-gradient(rgba(232,145,60,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(232,145,60,.07) 1px,transparent 1px);background-size:12.5% 12.5%;box-shadow:inset 0 0 80px rgba(0,0,0,.65)}
+.atlas::before,.atlas::after{content:"";position:absolute;background:rgba(232,145,60,.34);pointer-events:none}.atlas::before{left:50%;top:0;width:1px;height:100%}.atlas::after{top:50%;left:0;height:1px;width:100%}
+.coord{position:absolute;color:#6f685d;font-size:9px}.coord.n{top:8px;left:50%;transform:translateX(-50%)}.coord.s{bottom:8px;left:50%;transform:translateX(-50%)}.coord.w{left:8px;top:50%;transform:translateY(-50%)}.coord.e{right:8px;top:50%;transform:translateY(-50%)}
+.marker{position:absolute;z-index:2;width:16px;height:16px;transform:translate(-50%,-50%);border:2px solid #111;border-radius:50%;background:var(--marker);box-shadow:0 0 0 2px var(--marker),0 2px 12px #000;cursor:pointer}.marker::after{content:attr(data-label);position:absolute;left:50%;top:20px;transform:translateX(-50%);width:max-content;max-width:150px;padding:3px 6px;background:rgba(14,17,23,.9);border:1px solid #3c3831;color:var(--chalk);font:10px/1.3 "Malgun Gothic",sans-serif;white-space:nowrap;pointer-events:none}.marker:hover,.marker:focus-visible{z-index:5;outline:2px solid #fff;outline-offset:3px}
+.side{border:1px solid var(--seam);background:var(--pit-2)}.side-head{padding:16px;border-bottom:1px solid var(--seam)}.side-head b{display:block;font:700 18px "Gowun Batang",serif}.side-head small{color:var(--dust);font-size:9px}
+.village-list{margin:0;padding:0;list-style:none}.village-list li{display:grid;grid-template-columns:10px 1fr;gap:11px;padding:12px 14px;border-bottom:1px solid #222933}.village-list li:last-child{border-bottom:0}.swatch{width:8px;height:8px;margin-top:5px;border-radius:50%;background:var(--marker);box-shadow:0 0 7px var(--marker)}.village-list b{display:block;font:13px/1.4 "Malgun Gothic",sans-serif}.village-list small{display:block;margin-top:3px;color:var(--dust);font-size:9px;line-height:1.55}
+.footnote{margin:18px 0 0;color:#746e64;font:12px/1.7 "Malgun Gothic",sans-serif}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.side{display:none}.intro{align-items:flex-start;flex-direction:column}.status{align-self:flex-start}.marker::after{display:none}}
+@media(max-width:620px){.mapbar{padding:0 10px;gap:10px}.back{font-size:0;padding:7px 9px}.back::after{content:"←";font-size:15px}.title{font-size:16px}.title small,.hint{display:none}.preview{padding-inline:14px}.intro h1{font-size:30px}}
+</style>
+</head>
+<body>
+<header class="mapbar">
+  <a class="back" href="index.html">← 소개로 돌아가기</a>
+  <div class="title">아르케 세계 지도<small>ARCHE OVERWORLD</small></div>
+  <div class="hint">완성 후 드래그 이동 · 휠 확대 · 마커 선택</div>
+</header>
+<main class="stage" id="map-stage">
+  <section class="preview" aria-labelledby="preview-title">
+    <div class="preview-inner">
+      <div class="intro">
+        <div><p class="eyebrow">WORLD SURVEY · 8000 × 8000</p><h1 id="preview-title">대륙 측량 중</h1><p>오픈 전 세계의 모습을 기록하기 위해 전 지역을 생성하고 있습니다. 측량이 끝나면 이 자리에서 하늘 시점으로 대륙 전체를 보고, 확대해 지형과 마을을 자세히 살펴볼 수 있습니다.</p></div>
+        <div class="status">대화형 지도 준비 중</div>
+      </div>
+      <div class="layout">
+        <div class="atlas" id="atlas" aria-label="아르케 대륙 마을 배치도"><span class="coord n">Z -4000 · 북</span><span class="coord s">Z 4000 · 남</span><span class="coord w">X -4000</span><span class="coord e">X 4000</span></div>
+        <aside class="side"><div class="side-head"><b>원소 마을</b><small id="village-count">좌표 자료 불러오는 중</small></div><ul class="village-list" id="village-list"></ul></aside>
+      </div>
+      <p class="footnote">표시된 점은 확정된 중심 좌표입니다. 실제 마을 건축과 주변 지형은 개발 과정에서 계속 갱신됩니다.</p>
+    </div>
+  </section>
+  <iframe class="mapframe" id="mapframe" title="아르케 대화형 세계 지도"></iframe>
+</main>
+<script>
+(async()=>{
+  const stage=document.getElementById('map-stage'),atlas=document.getElementById('atlas'),list=document.getElementById('village-list'),count=document.getElementById('village-count');
+  try{
+    const response=await fetch('data/world-map.json',{cache:'no-store'});if(!response.ok)throw new Error('map data unavailable');
+    const data=await response.json(),w=data.world;
+    for(const village of data.villages){
+      const left=((village.x-w.minX)/(w.maxX-w.minX))*100,top=((village.z-w.minZ)/(w.maxZ-w.minZ))*100;
+      const marker=document.createElement('button');marker.className='marker';marker.type='button';marker.dataset.label=village.label;marker.style.cssText=`left:${left}%;top:${top}%;--marker:${village.color}`;marker.setAttribute('aria-label',`${village.label}, X ${village.x}, Z ${village.z}`);atlas.appendChild(marker);
+      const item=document.createElement('li');item.style.setProperty('--marker',village.color);item.innerHTML=`<span class="swatch"></span><div><b>${village.label}</b><small>${village.biome}<br>X ${village.x} · Z ${village.z}</small></div>`;list.appendChild(item);
+    }
+    count.textContent=`${data.villages.length}곳 · 시드 ${w.seed}`;
+  }catch(error){count.textContent='좌표 자료 준비 중'}
+  try{
+    const readyResponse=await fetch('world-map/ready.json',{cache:'no-store'});if(!readyResponse.ok)return;
+    const ready=await readyResponse.json();if(ready.ready){const frame=document.getElementById('mapframe');frame.src='world-map/index.html';stage.classList.add('is-ready')}
+  }catch(error){/* 렌더링 전에는 준비 화면을 유지한다. */}
+})();
+</script>
+</body>
+</html>
