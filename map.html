@@ -2,119 +2,92 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0E1117">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0e1117">
 <title>아르케 세계 지도 — ARCHE</title>
-<meta name="description" content="아르케 대륙과 원소 마을을 살펴보는 대화형 세계 지도.">
+<meta name="description" content="아르케 대륙과 원소 마을을 살펴보는 가벼운 대화형 세계 지도.">
 <link rel="icon" href="favicon.ico?v=1" sizes="any">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-:root{--pit:#0E1117;--pit-2:#12161C;--stone:#1A2029;--seam:#2B3441;--lamp:#E8913C;--chalk:#EAE3D6;--chalk-2:#C4BCAC;--dust:#8B8577;--bar-h:58px}
-*{box-sizing:border-box}
-html,body{width:100%;height:100%;margin:0;background:var(--pit);color:var(--chalk)}
-body{font-family:"IBM Plex Mono","Malgun Gothic",monospace}a{color:inherit}
-.mapbar{height:var(--bar-h);display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:1px solid var(--seam);background:rgba(14,17,23,.96)}
-.back{color:var(--chalk);text-decoration:none;font-size:13px;white-space:nowrap;padding:7px 10px;border:1px solid var(--seam);border-radius:4px}
-.back:hover,.back:focus-visible{border-color:var(--lamp);outline:none}
-.title{min-width:0;margin-right:auto;font-family:"Gowun Batang",serif;font-size:18px;white-space:nowrap}.title small{margin-left:9px;color:var(--lamp);font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.2em}.hint{color:var(--dust);font-size:11px;white-space:nowrap}
-.stage{position:relative;height:calc(100% - var(--bar-h));overflow:auto;background:var(--pit)}.mapframe{display:none;width:100%;height:100%;border:0;background:var(--stone)}
-.stage.is-ready{overflow:hidden}.stage.is-ready .mapframe{display:block}.stage.is-ready .preview{display:none}
-.preview{min-height:100%;padding:clamp(26px,4vw,56px) 22px 48px}.preview-inner{width:min(1500px,100%);margin:0 auto}
-.eyebrow{margin:0 0 9px;color:var(--lamp);font-size:10px;letter-spacing:.22em}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:28px}
-.intro h1{font-family:"Gowun Batang",serif;font-size:clamp(29px,5vw,48px);line-height:1.2;margin:0 0 10px}.intro p{max-width:620px;margin:0;color:var(--chalk-2);font:14px/1.8 "Malgun Gothic",sans-serif;word-break:keep-all}
-.build-status{flex:none;width:min(290px,100%);padding:12px 13px;border:1px solid #5b422b;background:#1b1713}.status-line{display:flex;align-items:center;gap:8px;color:#e6a25f;font-size:11px;white-space:nowrap}.status-line::before{content:"";display:inline-block;flex:none;width:7px;height:7px;border-radius:50%;background:var(--lamp);box-shadow:0 0 10px rgba(232,145,60,.8)}.status-line strong{margin-left:auto;color:#ffc17c;font-size:13px}.progress-track{height:5px;margin-top:10px;overflow:hidden;background:#34271d}.progress-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,#b6652c,var(--lamp),#ffc17c);transition:width .35s ease}.status-detail{display:block;margin-top:7px;color:#9c8b78;font-size:8px;line-height:1.5;white-space:normal}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:20px;align-items:start}
-.map-panel{min-width:0;border:1px solid #514536;background:#111418}.map-tools{min-height:54px;display:flex;align-items:center;gap:14px;padding:9px 12px;border-bottom:1px solid #3d3429;background:#151719}.scale{margin-right:auto}.scale span{display:block;color:var(--dust);font-size:8px;letter-spacing:.16em}.scale b{display:block;margin-top:2px;color:var(--chalk-2);font-size:11px;font-weight:500}.zoom-controls{display:flex;align-items:center;gap:5px}.zoom-controls button{width:31px;height:31px;padding:0;border:1px solid #3b414a;background:#1a1e24;color:var(--chalk);font:500 13px "IBM Plex Mono",monospace;cursor:pointer}.zoom-controls button:hover,.zoom-controls button:focus-visible,.zoom-controls button.active{border-color:var(--lamp);color:#ffc17c;outline:none}.zoom-controls button:disabled{opacity:.35;cursor:default}.zoom-controls .reset{width:auto;padding:0 9px;font-size:9px}.zoom-steps{display:flex;gap:3px}.zoom-steps button{width:25px;height:25px;font-size:9px}
-.atlas-viewport{position:relative;aspect-ratio:1;overflow:hidden;touch-action:none;cursor:grab;background:#0e1114}.atlas-viewport.dragging{cursor:grabbing}.atlas{position:absolute;inset:0;background-color:#171a1c;background-image:linear-gradient(rgba(232,145,60,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(232,145,60,.07) 1px,transparent 1px);background-size:12.5% 12.5%;box-shadow:inset 0 0 80px rgba(0,0,0,.65);transform-origin:50% 50%;will-change:transform}.marker-layer{position:absolute;inset:0;z-index:3;pointer-events:none}
-.atlas::before,.atlas::after{content:"";position:absolute;background:rgba(232,145,60,.34);pointer-events:none}.atlas::before{left:50%;top:0;width:1px;height:100%}.atlas::after{top:50%;left:0;height:1px;width:100%}
-.coord{position:absolute;color:#6f685d;font-size:9px}.coord.n{top:8px;left:50%;transform:translateX(-50%)}.coord.s{bottom:8px;left:50%;transform:translateX(-50%)}.coord.w{left:8px;top:50%;transform:translateY(-50%)}.coord.e{right:8px;top:50%;transform:translateY(-50%)}
-.marker{position:absolute;z-index:2;width:16px;height:16px;transform:translate(-50%,-50%);border:2px solid #111;border-radius:50%;background:var(--marker);box-shadow:0 0 0 2px var(--marker),0 2px 12px #000;cursor:pointer;pointer-events:auto}.marker::after{content:attr(data-label);position:absolute;left:50%;top:20px;transform:translateX(-50%);width:max-content;max-width:150px;padding:3px 6px;background:rgba(14,17,23,.96);border:1px solid #3c3831;color:var(--chalk);font:10px/1.3 "Malgun Gothic",sans-serif;white-space:nowrap;pointer-events:none;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased}.marker:hover,.marker:focus-visible{z-index:5;outline:2px solid #fff;outline-offset:3px}
-.side{border:1px solid var(--seam);background:var(--pit-2)}.side-head{padding:16px;border-bottom:1px solid var(--seam)}.side-head b{display:block;font:700 18px "Gowun Batang",serif}.side-head small{color:var(--dust);font-size:9px}
-.village-list{margin:0;padding:0;list-style:none}.village-list li{display:grid;grid-template-columns:10px 1fr;gap:11px;padding:12px 14px;border-bottom:1px solid #222933}.village-list li:last-child{border-bottom:0}.swatch{width:8px;height:8px;margin-top:5px;border-radius:50%;background:var(--marker);box-shadow:0 0 7px var(--marker)}.village-list b{display:block;font:13px/1.4 "Malgun Gothic",sans-serif}.village-list small{display:block;margin-top:3px;color:var(--dust);font-size:9px;line-height:1.55}
-.footnote{margin:18px 0 0;color:#746e64;font:12px/1.7 "Malgun Gothic",sans-serif}
-@media(max-width:980px){.layout{grid-template-columns:1fr}.side{display:none}.intro{align-items:flex-start;flex-direction:column}.build-status{align-self:flex-start}.marker::after{display:none}}
-@media(max-width:700px){.map-tools{align-items:flex-start;flex-wrap:wrap}.scale{width:100%}.zoom-controls{width:100%}.zoom-controls .reset{margin-left:auto}}
-@media(max-width:620px){.mapbar{padding:0 10px;gap:10px}.back{font-size:0;padding:7px 9px}.back::after{content:"←";font-size:15px}.title{font-size:16px}.title small,.hint{display:none}.preview{padding-inline:14px}.intro h1{font-size:30px}}
+:root{--pit:#0e1117;--pit-2:#12161c;--stone:#1a2029;--seam:#2b3441;--lamp:#e8913c;--chalk:#eae3d6;--chalk-2:#c4bcac;--dust:#8b8577;--bar-h:58px}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--pit);color:var(--chalk)}
+body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}button,a{font:inherit;color:inherit}.mapbar{height:var(--bar-h);display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:1px solid var(--seam);background:rgba(14,17,23,.98)}
+.back{padding:7px 10px;border:1px solid var(--seam);border-radius:4px;text-decoration:none;font-size:13px;white-space:nowrap}.back:hover,.back:focus-visible{border-color:var(--lamp);outline:0}
+.title{min-width:0;margin-right:auto;font-size:18px;font-weight:750;white-space:nowrap}.title small{margin-left:9px;color:var(--lamp);font:600 9px ui-monospace,monospace;letter-spacing:.2em}.hint{color:var(--dust);font-size:11px;white-space:nowrap}
+.stage{height:calc(100% - var(--bar-h));padding:14px;background:radial-gradient(circle at 50% 45%,#171c23 0,#0e1117 68%)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 294px;gap:14px;width:min(1900px,100%);height:100%;margin:auto}.map-panel,.side{min-width:0;border:1px solid var(--seam);background:var(--pit-2)}
+.map-panel{display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}.map-tools{min-height:54px;display:flex;align-items:center;gap:14px;padding:9px 12px;border-bottom:1px solid #3d3429;background:#151719}
+.scale{margin-right:auto;min-width:0}.scale span{display:block;color:var(--dust);font:600 8px ui-monospace,monospace;letter-spacing:.16em}.scale b{display:block;margin-top:3px;overflow:hidden;color:var(--chalk-2);font-size:12px;font-weight:550;text-overflow:ellipsis;white-space:nowrap}.coords{color:#a9a194;font:500 10px ui-monospace,monospace;white-space:nowrap}
+.zoom-controls{display:flex;align-items:center;gap:5px}.zoom-controls button{width:31px;height:31px;padding:0;border:1px solid #3b414a;background:#1a1e24;color:var(--chalk);font:600 13px ui-monospace,monospace;cursor:pointer}.zoom-controls button:hover,.zoom-controls button:focus-visible,.zoom-controls button.active{border-color:var(--lamp);color:#ffc17c;outline:0}.zoom-controls button:disabled{opacity:.35;cursor:default}.zoom-controls .reset{width:auto;padding:0 9px;font-size:10px}.zoom-steps{display:flex;gap:3px}.zoom-steps button{width:25px;height:25px;font-size:9px}
+.atlas-viewport{position:relative;min-height:0;overflow:hidden;contain:strict;touch-action:none;cursor:grab;background:#080a0d;user-select:none}.atlas-viewport.dragging{cursor:grabbing}.tile-layer,.marker-layer,.world-border{position:absolute;inset:0;pointer-events:none}.tile{position:absolute;display:block;max-width:none;transform-origin:0 0;pointer-events:none;-webkit-user-drag:none}.world-border{inset:auto;border:1px solid rgba(232,145,60,.72);box-shadow:0 0 0 1px rgba(0,0,0,.4)}
+.marker-layer{z-index:3}.marker{position:absolute;width:16px;height:16px;padding:0;transform:translate(-50%,-50%);border:2px solid #111;border-radius:50%;background:var(--marker);box-shadow:0 0 0 2px var(--marker),0 2px 12px #000;cursor:pointer;pointer-events:auto}.marker::after{content:attr(data-label);position:absolute;left:50%;top:20px;transform:translateX(-50%);width:max-content;max-width:160px;padding:3px 6px;border:1px solid #3c3831;background:rgba(14,17,23,.94);color:var(--chalk);font-size:10px;line-height:1.3;white-space:nowrap;pointer-events:none}.marker:hover,.marker:focus-visible,.marker.selected{z-index:5;outline:2px solid #fff;outline-offset:3px}
+.loading{position:absolute;z-index:5;left:50%;top:50%;transform:translate(-50%,-50%);padding:9px 12px;border:1px solid #493822;background:rgba(14,17,23,.9);color:#ffc17c;font:600 10px ui-monospace,monospace;letter-spacing:.08em;transition:opacity .2s}.loading.hidden{opacity:0;pointer-events:none}
+.side{display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}.side-head{padding:16px;border-bottom:1px solid var(--seam)}.side-head b{display:block;font-size:18px}.side-head small{color:var(--dust);font:500 9px ui-monospace,monospace}.village-list{overflow:auto;margin:0;padding:0;list-style:none}.village-list button{display:grid;grid-template-columns:10px 1fr;gap:11px;width:100%;padding:12px 14px;border:0;border-bottom:1px solid #222933;background:transparent;text-align:left;cursor:pointer}.village-list button:hover,.village-list button:focus-visible{background:#181d24;outline:0}.swatch{width:8px;height:8px;margin-top:5px;border-radius:50%;background:var(--marker);box-shadow:0 0 7px var(--marker)}.village-list b{display:block;font-size:13px;line-height:1.4}.village-list small{display:block;margin-top:3px;color:var(--dust);font:500 9px/1.55 ui-monospace,monospace}.map-note{padding:12px 14px;border-top:1px solid var(--seam);color:#746e64;font-size:11px;line-height:1.55}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.side{display:none}.stage{padding:8px}.marker::after{display:none}}
+@media(max-width:700px){.map-tools{align-items:flex-start;flex-wrap:wrap}.scale{width:100%}.coords{display:none}.zoom-controls{width:100%}.zoom-controls .reset{margin-left:auto}}
+@media(max-width:620px){.mapbar{padding:0 10px;gap:10px}.back{font-size:0;padding:7px 9px}.back::after{content:"←";font-size:15px}.title{font-size:16px}.title small,.hint{display:none}}
+@media(prefers-reduced-motion:reduce){.loading{transition:none}}
 </style>
 </head>
 <body>
 <header class="mapbar">
   <a class="back" href="index.html">← 소개로 돌아가기</a>
   <div class="title">아르케 세계 지도<small>ARCHE OVERWORLD</small></div>
-  <div class="hint">완성 후 드래그 이동 · 휠 확대 · 마커 선택</div>
+  <div class="hint">드래그 이동 · 커서 기준 휠 확대 · 마을 선택</div>
 </header>
-<main class="stage" id="map-stage">
-  <section class="preview" aria-labelledby="preview-title">
-    <div class="preview-inner">
-      <div class="intro">
-        <div><p class="eyebrow">WORLD SURVEY · 8000 × 8000</p><h1 id="preview-title">대륙 측량 중</h1><p>오픈 전 세계의 모습을 기록하기 위해 전 지역을 생성하고 있습니다. 측량이 끝나면 이 자리에서 하늘 시점으로 대륙 전체를 보고, 확대해 지형과 마을을 자세히 살펴볼 수 있습니다.</p></div>
-        <div class="build-status" aria-live="polite">
-          <div class="status-line"><span id="status-text">월드 생성 상태 확인 중</span><strong id="status-percent">--%</strong></div>
-          <div class="progress-track" role="progressbar" aria-label="월드 사전생성 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="status-progress"><span id="status-bar"></span></div>
-          <small class="status-detail" id="status-detail">최신 진행률을 불러오고 있습니다.</small>
+<main class="stage">
+  <div class="layout">
+    <section class="map-panel" aria-label="아르케 대륙 지도">
+      <div class="map-tools">
+        <div class="scale"><span>보기 범위</span><b id="zoom-label">전체 대륙 불러오는 중</b></div>
+        <div class="coords" id="center-coords">X 0 · Z 0</div>
+        <div class="zoom-controls" aria-label="지도 확대 단계">
+          <button id="zoom-out" type="button" aria-label="축소">−</button>
+          <div class="zoom-steps"><button type="button" data-zoom="0" aria-label="1단계 전체 보기">1</button><button type="button" data-zoom="1" aria-label="2단계 권역 보기">2</button><button type="button" data-zoom="2" aria-label="3단계 마을 보기">3</button><button type="button" data-zoom="3" aria-label="4단계 상세 보기">4</button></div>
+          <button id="zoom-in" type="button" aria-label="확대">+</button><button class="reset" id="zoom-reset" type="button">전체 보기</button>
         </div>
       </div>
-      <div class="layout">
-        <div class="map-panel">
-          <div class="map-tools">
-            <div class="scale"><span>보기 범위</span><b id="zoom-label">1단계 · 전체 8000 × 8000블록</b></div>
-            <div class="zoom-controls" aria-label="지도 확대 단계">
-              <button id="zoom-out" type="button" aria-label="축소">−</button>
-              <div class="zoom-steps" id="zoom-steps">
-                <button type="button" data-zoom="0" aria-label="1단계 전체 보기">1</button><button type="button" data-zoom="1" aria-label="2단계 권역 보기">2</button><button type="button" data-zoom="2" aria-label="3단계 마을 보기">3</button><button type="button" data-zoom="3" aria-label="4단계 상세 보기">4</button>
-              </div>
-              <button id="zoom-in" type="button" aria-label="확대">+</button><button class="reset" id="zoom-reset" type="button">전체 보기</button>
-            </div>
-          </div>
-          <div class="atlas-viewport" id="atlas-viewport" tabindex="0" aria-label="아르케 대륙 마을 배치도. 드래그로 이동하고 휠로 확대할 수 있습니다.">
-            <div class="atlas" id="atlas"><span class="coord n">Z -4000 · 북</span><span class="coord s">Z 4000 · 남</span><span class="coord w">X -4000</span><span class="coord e">X 4000</span></div><div class="marker-layer" id="marker-layer"></div>
-          </div>
-        </div>
-        <aside class="side"><div class="side-head"><b>원소 마을</b><small id="village-count">좌표 자료 불러오는 중</small></div><ul class="village-list" id="village-list"></ul></aside>
+      <div class="atlas-viewport" id="atlas-viewport" tabindex="0" aria-label="아르케 대륙 지도. 드래그로 이동하고 휠로 확대할 수 있습니다.">
+        <div class="tile-layer" id="tile-layer"></div><div class="world-border" id="world-border"></div><div class="marker-layer" id="marker-layer"></div><div class="loading" id="map-loading">지형 타일 불러오는 중</div>
       </div>
-      <p class="footnote">표시된 점은 확정된 중심 좌표입니다. 실제 마을 건축과 주변 지형은 개발 과정에서 계속 갱신됩니다.</p>
-    </div>
-  </section>
-  <iframe class="mapframe" id="mapframe" title="아르케 대화형 세계 지도"></iframe>
+    </section>
+    <aside class="side">
+      <div class="side-head"><b>원소 마을</b><small id="village-count">좌표 자료 불러오는 중</small></div>
+      <ul class="village-list" id="village-list"></ul>
+      <div class="map-note">지도는 정지 상태에서 GPU를 계속 사용하지 않습니다. 마을과 지형이 추가되면 같은 좌표계에 반영됩니다.</div>
+    </aside>
+  </div>
 </main>
 <script>
 (async()=>{
-  const stage=document.getElementById('map-stage'),atlas=document.getElementById('atlas'),markerLayer=document.getElementById('marker-layer'),viewport=document.getElementById('atlas-viewport'),list=document.getElementById('village-list'),count=document.getElementById('village-count');
-  const zoomLevels=[{scale:1,label:'1단계 · 전체 8000 × 8000블록'},{scale:2,label:'2단계 · 권역 4000 × 4000블록'},{scale:4,label:'3단계 · 마을 2000 × 2000블록'},{scale:8,label:'4단계 · 상세 1000 × 1000블록'}];
-  const zoomLabel=document.getElementById('zoom-label'),zoomOut=document.getElementById('zoom-out'),zoomIn=document.getElementById('zoom-in'),stepButtons=[...document.querySelectorAll('[data-zoom]')];
-  let zoomIndex=0,panX=0,panY=0,dragging=false,lastX=0,lastY=0,pointerX=0,pointerY=0;
-  function clampPan(){const scale=zoomLevels[zoomIndex].scale,limitX=viewport.clientWidth*(scale-1)/2,limitY=viewport.clientHeight*(scale-1)/2;panX=Math.max(-limitX,Math.min(limitX,panX));panY=Math.max(-limitY,Math.min(limitY,panY))}
-  function drawMarkers(){const scale=zoomLevels[zoomIndex].scale,width=viewport.clientWidth,height=viewport.clientHeight;for(const marker of markerLayer.children){const x=width/2+(Number(marker.dataset.mapX)-.5)*width*scale+panX,y=height/2+(Number(marker.dataset.mapY)-.5)*height*scale+panY;marker.style.left=`${x}px`;marker.style.top=`${y}px`}}
-  function drawZoom(){clampPan();const level=zoomLevels[zoomIndex];atlas.style.transform=`translate(${panX}px,${panY}px) scale(${level.scale})`;drawMarkers();zoomLabel.textContent=level.label;zoomOut.disabled=zoomIndex===0;zoomIn.disabled=zoomIndex===zoomLevels.length-1;stepButtons.forEach((button,index)=>button.classList.toggle('active',index===zoomIndex))}
+  const viewport=document.getElementById('atlas-viewport'),tileLayer=document.getElementById('tile-layer'),markerLayer=document.getElementById('marker-layer'),border=document.getElementById('world-border'),loading=document.getElementById('map-loading'),list=document.getElementById('village-list'),count=document.getElementById('village-count'),zoomLabel=document.getElementById('zoom-label'),centerCoords=document.getElementById('center-coords'),zoomOut=document.getElementById('zoom-out'),zoomIn=document.getElementById('zoom-in'),stepButtons=[...document.querySelectorAll('[data-zoom]')];
+  const zoomLevels=[{factor:1,label:'1단계 · 전체 8000 × 8000블록'},{factor:1.8,label:'2단계 · 권역 약 4400블록'},{factor:3.5,label:'3단계 · 마을 약 2300블록'},{factor:7,label:'4단계 · 상세 약 1100블록'}];
+  const lods=[{level:3,worldSize:12500,min:-1,max:0},{level:2,worldSize:2500,min:-2,max:1},{level:1,worldSize:500,min:-9,max:8}];
+  let world=null,zoomIndex=0,centerX=0,centerZ=0,dragging=false,lastX=0,lastY=0,pointerX=0,pointerY=0,lastWheel=0,renderQueued=false,firstTile=false;
+  const tiles=new Map();
+  function baseScale(){if(!world)return 1;return Math.min((viewport.clientWidth-48)/(world.maxX-world.minX),(viewport.clientHeight-48)/(world.maxZ-world.minZ))}
+  function scale(){return baseScale()*zoomLevels[zoomIndex].factor}
+  function clampCamera(){const s=scale(),halfX=viewport.clientWidth/(2*s),halfZ=viewport.clientHeight/(2*s),minX=world.minX+halfX,maxX=world.maxX-halfX,minZ=world.minZ+halfZ,maxZ=world.maxZ-halfZ;centerX=minX>maxX?(world.minX+world.maxX)/2:Math.max(minX,Math.min(maxX,centerX));centerZ=minZ>maxZ?(world.minZ+world.maxZ)/2:Math.max(minZ,Math.min(maxZ,centerZ))}
+  function worldToScreen(x,z){const s=scale();return{x:viewport.clientWidth/2+(x-centerX)*s,y:viewport.clientHeight/2+(z-centerZ)*s}}
+  function screenToWorld(x,y){const s=scale();return{x:centerX+(x-viewport.clientWidth/2)/s,z:centerZ+(y-viewport.clientHeight/2)/s}}
+  function currentLod(){return zoomIndex===0?lods[0]:zoomIndex<3?lods[1]:lods[2]}
+  function tilePath(lod,x,z){return`map-tiles/${lod}/x${x}/z${z}.webp`}
+  function drawTiles(){const lod=currentLod(),s=scale(),size=lod.worldSize*s,leftWorld=centerX-viewport.clientWidth/(2*s),rightWorld=centerX+viewport.clientWidth/(2*s),topWorld=centerZ-viewport.clientHeight/(2*s),bottomWorld=centerZ+viewport.clientHeight/(2*s),minX=Math.max(lod.min,Math.floor(leftWorld/lod.worldSize)-1),maxX=Math.min(lod.max,Math.floor(rightWorld/lod.worldSize)+1),minZ=Math.max(lod.min,Math.floor(topWorld/lod.worldSize)-1),maxZ=Math.min(lod.max,Math.floor(bottomWorld/lod.worldSize)+1),needed=new Set();
+    for(let x=minX;x<=maxX;x++)for(let z=minZ;z<=maxZ;z++){const key=`${lod.level}:${x}:${z}`;needed.add(key);let img=tiles.get(key);if(!img){img=new Image();img.className='tile';img.alt='';img.decoding='async';img.draggable=false;img.src=tilePath(lod.level,x,z);img.addEventListener('load',()=>{if(!firstTile){firstTile=true;loading.classList.add('hidden')}});tiles.set(key,img);tileLayer.appendChild(img)}const p=worldToScreen(x*lod.worldSize,z*lod.worldSize);img.style.width=`${size+1}px`;img.style.height=`${size+1}px`;img.style.transform=`translate3d(${p.x}px,${p.y}px,0)`}
+    for(const[key,img]of tiles)if(!needed.has(key)){img.remove();tiles.delete(key)}
+  }
+  function drawMarkers(){for(const marker of markerLayer.children){const p=worldToScreen(Number(marker.dataset.x),Number(marker.dataset.z));marker.style.left=`${p.x}px`;marker.style.top=`${p.y}px`;marker.hidden=p.x<-40||p.y<-40||p.x>viewport.clientWidth+40||p.y>viewport.clientHeight+40}}
+  function drawBorder(){const nw=worldToScreen(world.minX,world.minZ),se=worldToScreen(world.maxX,world.maxZ);border.style.left=`${nw.x}px`;border.style.top=`${nw.y}px`;border.style.width=`${se.x-nw.x}px`;border.style.height=`${se.y-nw.y}px`}
+  function render(){renderQueued=false;if(!world||!viewport.clientWidth)return;clampCamera();drawTiles();drawMarkers();drawBorder();zoomLabel.textContent=zoomLevels[zoomIndex].label;centerCoords.textContent=`X ${Math.round(centerX)} · Z ${Math.round(centerZ)}`;zoomOut.disabled=zoomIndex===0;zoomIn.disabled=zoomIndex===zoomLevels.length-1;stepButtons.forEach((button,index)=>button.classList.toggle('active',index===zoomIndex))}
+  function queueRender(){if(!renderQueued){renderQueued=true;requestAnimationFrame(render)}}
   function updatePointer(event){const rect=viewport.getBoundingClientRect();pointerX=event.clientX-rect.left;pointerY=event.clientY-rect.top}
-  function setZoom(next,anchorX=viewport.clientWidth/2,anchorY=viewport.clientHeight/2){const oldScale=zoomLevels[zoomIndex].scale;zoomIndex=Math.max(0,Math.min(zoomLevels.length-1,next));const ratio=zoomLevels[zoomIndex].scale/oldScale;if(ratio!==1){panX=anchorX-viewport.clientWidth/2-(anchorX-viewport.clientWidth/2-panX)*ratio;panY=anchorY-viewport.clientHeight/2-(anchorY-viewport.clientHeight/2-panY)*ratio}if(zoomIndex===0){panX=0;panY=0}drawZoom()}
-  zoomOut.addEventListener('click',()=>setZoom(zoomIndex-1,pointerX||viewport.clientWidth/2,pointerY||viewport.clientHeight/2));zoomIn.addEventListener('click',()=>setZoom(zoomIndex+1,pointerX||viewport.clientWidth/2,pointerY||viewport.clientHeight/2));document.getElementById('zoom-reset').addEventListener('click',()=>setZoom(0));stepButtons.forEach(button=>button.addEventListener('click',()=>setZoom(Number(button.dataset.zoom),pointerX||viewport.clientWidth/2,pointerY||viewport.clientHeight/2)));
-  viewport.addEventListener('wheel',event=>{event.preventDefault();updatePointer(event);setZoom(zoomIndex+(event.deltaY>0?-1:1),pointerX,pointerY)},{passive:false});
-  viewport.addEventListener('pointerdown',event=>{if(event.target.closest('.marker'))return;dragging=true;lastX=event.clientX;lastY=event.clientY;viewport.classList.add('dragging');viewport.setPointerCapture(event.pointerId)});
-  viewport.addEventListener('pointermove',event=>{updatePointer(event);if(!dragging)return;panX+=event.clientX-lastX;panY+=event.clientY-lastY;lastX=event.clientX;lastY=event.clientY;drawZoom()});
-  function stopDrag(){dragging=false;viewport.classList.remove('dragging')}viewport.addEventListener('pointerup',stopDrag);viewport.addEventListener('pointercancel',stopDrag);
-  viewport.addEventListener('keydown',event=>{if(event.key==='+'||event.key==='=')setZoom(zoomIndex+1);else if(event.key==='-')setZoom(zoomIndex-1);else if(event.key==='0')setZoom(0);else return;event.preventDefault()});window.addEventListener('resize',drawZoom);drawZoom();
-  try{
-    const statusResponse=await fetch('data/map-status.json',{cache:'no-store'});if(!statusResponse.ok)throw new Error('status unavailable');
-    const status=await statusResponse.json(),percent=Math.max(0,Math.min(100,Number(status.percent)||0)),updated=new Date(status.updatedAt);
-    document.getElementById('status-text').textContent=status.label||'8000 × 8000 월드 사전생성';document.getElementById('status-percent').textContent=`${percent.toFixed(1)}%`;document.getElementById('status-bar').style.width=`${percent}%`;document.getElementById('status-progress').setAttribute('aria-valuenow',String(percent));document.getElementById('status-detail').textContent=`${Number(status.processedChunks).toLocaleString('ko-KR')} / ${Number(status.totalChunks).toLocaleString('ko-KR')} 청크 · ${updated.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})} 갱신`;
-  }catch(error){document.getElementById('status-text').textContent='대화형 지도 준비 중';document.getElementById('status-detail').textContent='진행률을 불러오지 못했습니다.'}
-  try{
-    const response=await fetch('data/world-map.json',{cache:'no-store'});if(!response.ok)throw new Error('map data unavailable');
-    const data=await response.json(),w=data.world;
-    for(const village of data.villages){
-      const left=((village.x-w.minX)/(w.maxX-w.minX))*100,top=((village.z-w.minZ)/(w.maxZ-w.minZ))*100;
-      const marker=document.createElement('button');marker.className='marker';marker.type='button';marker.dataset.label=village.label;marker.dataset.mapX=left/100;marker.dataset.mapY=top/100;marker.style.setProperty('--marker',village.color);marker.setAttribute('aria-label',`${village.label}, X ${village.x}, Z ${village.z}`);markerLayer.appendChild(marker);
-      const item=document.createElement('li');item.style.setProperty('--marker',village.color);item.innerHTML=`<span class="swatch"></span><div><b>${village.label}</b><small>${village.biome}<br>X ${village.x} · Z ${village.z}</small></div>`;list.appendChild(item);
-    }
-    count.textContent=`${data.villages.length}곳 · 시드 ${w.seed}`;drawMarkers();
-  }catch(error){count.textContent='좌표 자료 준비 중'}
-  try{
-    const readyResponse=await fetch('world-map-lite/ready.json',{cache:'no-store'});if(!readyResponse.ok)return;
-    const ready=await readyResponse.json();if(ready.ready){const frame=document.getElementById('mapframe');frame.src=ready.mapUrl||'world-map-lite/index.html';stage.classList.add('is-ready')}
-  }catch(error){/* 렌더링 전에는 준비 화면을 유지한다. */}
+  function setZoom(next,anchorX=viewport.clientWidth/2,anchorY=viewport.clientHeight/2){const before=screenToWorld(anchorX,anchorY),newIndex=Math.max(0,Math.min(zoomLevels.length-1,next));if(newIndex===zoomIndex)return;zoomIndex=newIndex;const s=scale();centerX=before.x-(anchorX-viewport.clientWidth/2)/s;centerZ=before.z-(anchorY-viewport.clientHeight/2)/s;if(zoomIndex===0){centerX=0;centerZ=0}queueRender()}
+  zoomOut.addEventListener('click',()=>setZoom(zoomIndex-1,pointerX||viewport.clientWidth/2,pointerY||viewport.clientHeight/2));zoomIn.addEventListener('click',()=>setZoom(zoomIndex+1,pointerX||viewport.clientWidth/2,pointerY||viewport.clientHeight/2));document.getElementById('zoom-reset').addEventListener('click',()=>{centerX=0;centerZ=0;setZoom(0);queueRender()});stepButtons.forEach(button=>button.addEventListener('click',()=>setZoom(Number(button.dataset.zoom),pointerX||viewport.clientWidth/2,pointerY||viewport.clientHeight/2)));
+  viewport.addEventListener('wheel',event=>{event.preventDefault();updatePointer(event);const now=performance.now();if(now-lastWheel<140)return;lastWheel=now;setZoom(zoomIndex+(event.deltaY>0?-1:1),pointerX,pointerY)},{passive:false});
+  viewport.addEventListener('pointerdown',event=>{if(event.target.closest('.marker'))return;dragging=true;lastX=event.clientX;lastY=event.clientY;viewport.classList.add('dragging');viewport.setPointerCapture(event.pointerId)});viewport.addEventListener('pointermove',event=>{updatePointer(event);if(!dragging)return;const s=scale();centerX-=(event.clientX-lastX)/s;centerZ-=(event.clientY-lastY)/s;lastX=event.clientX;lastY=event.clientY;queueRender()});
+  function stopDrag(){dragging=false;viewport.classList.remove('dragging')}viewport.addEventListener('pointerup',stopDrag);viewport.addEventListener('pointercancel',stopDrag);viewport.addEventListener('keydown',event=>{if(event.key==='+'||event.key==='=')setZoom(zoomIndex+1);else if(event.key==='-')setZoom(zoomIndex-1);else if(event.key==='0'){centerX=0;centerZ=0;setZoom(0);queueRender()}else return;event.preventDefault()});
+  function preloadRegionTiles(){if(navigator.connection&&navigator.connection.saveData)return;for(let x=-2;x<=1;x++)for(let z=-2;z<=1;z++){const image=new Image();image.decoding='async';image.src=tilePath(2,x,z)}}
+  try{const response=await fetch('data/world-map.json');if(!response.ok)throw new Error('map data unavailable');const data=await response.json();world=data.world;for(const village of data.villages){const marker=document.createElement('button');marker.className='marker';marker.type='button';marker.dataset.label=village.label;marker.dataset.x=village.x;marker.dataset.z=village.z;marker.style.setProperty('--marker',village.color);marker.setAttribute('aria-label',`${village.label}, X ${village.x}, Z ${village.z}`);marker.addEventListener('click',()=>{centerX=village.x;centerZ=village.z;if(zoomIndex<2)zoomIndex=2;document.querySelectorAll('.marker.selected').forEach(item=>item.classList.remove('selected'));marker.classList.add('selected');queueRender()});markerLayer.appendChild(marker);
+      const item=document.createElement('li'),button=document.createElement('button');button.type='button';button.style.setProperty('--marker',village.color);button.innerHTML=`<span class="swatch"></span><div><b>${village.label}</b><small>${village.biome}<br>X ${village.x} · Z ${village.z}</small></div>`;button.addEventListener('click',()=>marker.click());item.appendChild(button);list.appendChild(item)}count.textContent=`${data.villages.length}곳 · 시드 ${world.seed}`;new ResizeObserver(queueRender).observe(viewport);queueRender();if('requestIdleCallback'in window)requestIdleCallback(preloadRegionTiles,{timeout:2500});else setTimeout(preloadRegionTiles,1200)}catch(error){loading.textContent='지도 자료를 불러오지 못했습니다';count.textContent='좌표 자료 준비 중';console.error(error)}
 })();
 </script>
 </body>

@@ -30,4 +30,30 @@
       });
     });
   });
+
+  var mapLink = document.querySelector('[data-map-link]');
+  if (mapLink) {
+    var mapPrefetched = false;
+    var prefetchMap = function () {
+      if (mapPrefetched) return;
+      mapPrefetched = true;
+      [
+        ['map.html', 'document'],
+        ['data/world-map.json', 'fetch'],
+        ['map-tiles/3/x-1/z-1.webp', 'image'],
+        ['map-tiles/3/x-1/z0.webp', 'image'],
+        ['map-tiles/3/x0/z-1.webp', 'image'],
+        ['map-tiles/3/x0/z0.webp', 'image']
+      ].forEach(function (asset) {
+        var link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = asset[0];
+        link.as = asset[1];
+        document.head.appendChild(link);
+      });
+    };
+    mapLink.addEventListener('pointerenter', prefetchMap, { once: true });
+    mapLink.addEventListener('focus', prefetchMap, { once: true });
+    mapLink.addEventListener('touchstart', prefetchMap, { once: true, passive: true });
+  }
 })();
