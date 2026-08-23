@@ -1,8 +1,8 @@
 {
-  "stage": "pregenerating",
-  "label": "8000 × 8000 월드 사전생성",
-  "percent": 69.70,
-  "processedChunks": 174945,
+  "stage": "complete",
+  "label": "8000 × 8000 월드 지도 완성",
+  "percent": 100,
+  "processedChunks": 251001,
   "totalChunks": 251001,
-  "updatedAt": "2026-08-24T03:46:33+09:00"
+  "updatedAt": "2026-08-24T05:42:23+09:00"
 }

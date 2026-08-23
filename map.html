@@ -112,8 +112,8 @@ body{font-family:"IBM Plex Mono","Malgun Gothic",monospace}a{color:inherit}
     count.textContent=`${data.villages.length}곳 · 시드 ${w.seed}`;drawMarkers();
   }catch(error){count.textContent='좌표 자료 준비 중'}
   try{
-    const readyResponse=await fetch('world-map/ready.json',{cache:'no-store'});if(!readyResponse.ok)return;
-    const ready=await readyResponse.json();if(ready.ready){const frame=document.getElementById('mapframe');frame.src='world-map/index.html';stage.classList.add('is-ready')}
+    const readyResponse=await fetch('world-map-lite/ready.json',{cache:'no-store'});if(!readyResponse.ok)return;
+    const ready=await readyResponse.json();if(ready.ready){const frame=document.getElementById('mapframe');frame.src=ready.mapUrl||'world-map-lite/index.html';stage.classList.add('is-ready')}
   }catch(error){/* 렌더링 전에는 준비 화면을 유지한다. */}
 })();
 </script>
