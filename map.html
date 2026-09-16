@@ -4,16 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0e1117">
-<title>아르케 세계 지도 — ARCHE</title>
-<meta name="description" content="아르케 대륙과 원소 마을을 살펴보는 가벼운 대화형 세계 지도.">
+<title>시험 지형 지도 · 아르케 ARCHE</title>
+<meta name="description" content="아르케 준비 초기에 쓰던 시험 지형의 지도.">
+<meta name="robots" content="noindex">
 <link rel="icon" href="favicon.ico?v=1" sizes="any">
+<link rel="stylesheet" href="assets/css/base.css?v=3">
 <style>
 :root{--pit:#0e1117;--pit-2:#12161c;--stone:#1a2029;--seam:#2b3441;--lamp:#e8913c;--chalk:#eae3d6;--chalk-2:#c4bcac;--dust:#8b8577;--bar-h:58px}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--pit);color:var(--chalk)}
-body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}button,a{font:inherit;color:inherit}.mapbar{height:var(--bar-h);display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:1px solid var(--seam);background:rgba(14,17,23,.98)}
+body{display:flex;flex-direction:column;font-family:var(--f-body);background-image:none;min-height:0}.mapbar{flex:none}.notice-bar{flex:none;margin:0}.notice-bar{padding:10px 22px;border-bottom:1px solid rgba(241,227,185,.25);background:rgba(241,227,185,.06);color:#f1e3b9;font-size:13px;line-height:1.5}button,a{font:inherit;color:inherit}.mapbar{height:var(--bar-h);display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:1px solid var(--seam);background:rgba(14,17,23,.98)}
 .back{padding:7px 10px;border:1px solid var(--seam);border-radius:4px;text-decoration:none;font-size:13px;white-space:nowrap}.back:hover,.back:focus-visible{border-color:var(--lamp);outline:0}
 .title{min-width:0;margin-right:auto;font-size:18px;font-weight:750;white-space:nowrap}.title small{margin-left:9px;color:var(--lamp);font:600 9px ui-monospace,monospace;letter-spacing:.2em}.hint{color:var(--dust);font-size:11px;white-space:nowrap}
-.stage{height:calc(100% - var(--bar-h));padding:14px;background:radial-gradient(circle at 50% 45%,#171c23 0,#0e1117 68%)}
+.stage{flex:1;min-height:0;padding:14px;background:radial-gradient(circle at 50% 45%,#171c23 0,#0e1117 68%)}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 294px;gap:14px;width:min(1900px,100%);height:100%;margin:auto}.map-panel,.side{min-width:0;border:1px solid var(--seam);background:var(--pit-2)}
 .map-panel{display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}.map-tools{min-height:54px;display:flex;align-items:center;gap:14px;padding:9px 12px;border-bottom:1px solid #3d3429;background:#151719}
 .scale{margin-right:auto;min-width:0}.scale span{display:block;color:var(--dust);font:600 8px ui-monospace,monospace;letter-spacing:.16em}.scale b{display:block;margin-top:3px;overflow:hidden;color:var(--chalk-2);font-size:12px;font-weight:550;text-overflow:ellipsis;white-space:nowrap}.coords{color:#a9a194;font:500 10px ui-monospace,monospace;white-space:nowrap}
@@ -31,14 +33,15 @@ body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}button,a{font:
 <body>
 <header class="mapbar">
   <a class="back" href="index.html">← 소개로 돌아가기</a>
-  <div class="title">아르케 세계 지도<small>ARCHE OVERWORLD</small></div>
-  <div class="hint">드래그 이동 · 커서 기준 휠 확대 · 마을 선택</div>
+  <div class="title">시험 지형 지도<small>ARCHE</small></div>
+  <div class="hint">끌어서 이동, 휠로 확대</div>
 </header>
+<p class="notice-bar">준비 초기에 쓰던 시험 지형이다. 이번 시즌에 내려가는 세상과는 다르며, 표시된 마을도 실제 거점이 아니다.</p>
 <main class="stage">
   <div class="layout">
-    <section class="map-panel" aria-label="아르케 대륙 지도">
+    <section class="map-panel" aria-label="시험 지형 지도">
       <div class="map-tools">
-        <div class="scale"><span>보기 범위</span><b id="zoom-label">전체 대륙 불러오는 중</b></div>
+        <div class="scale"><span>보기 범위</span><b id="zoom-label">불러오는 중</b></div>
         <div class="coords" id="center-coords">X 0 · Z 0</div>
         <div class="zoom-controls" aria-label="지도 확대 단계">
           <button id="zoom-out" type="button" aria-label="축소">−</button>
@@ -46,21 +49,21 @@ body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}button,a{font:
           <button id="zoom-in" type="button" aria-label="확대">+</button><button class="reset" id="zoom-reset" type="button">전체 보기</button>
         </div>
       </div>
-      <div class="atlas-viewport" id="atlas-viewport" tabindex="0" aria-label="아르케 대륙 지도. 드래그로 이동하고 휠로 확대할 수 있습니다.">
-        <div class="overview-layer" id="overview-layer"></div><div class="tile-layer" id="tile-layer"></div><div class="world-border" id="world-border"></div><div class="marker-layer" id="marker-layer"></div><div class="loading" id="map-loading">지형 타일 불러오는 중</div>
+      <div class="atlas-viewport" id="atlas-viewport" tabindex="0" aria-label="시험 지형 지도. 끌어서 이동하고 휠이나 +, - 키로 확대한다.">
+        <div class="overview-layer" id="overview-layer"></div><div class="tile-layer" id="tile-layer"></div><div class="world-border" id="world-border"></div><div class="marker-layer" id="marker-layer"></div><div class="loading" id="map-loading">지도를 불러오는 중</div>
       </div>
     </section>
     <aside class="side">
-      <div class="side-head"><b>원소 마을</b><small id="village-count">좌표 자료 불러오는 중</small></div>
+      <div class="side-head"><b>시험 마을 위치</b><small id="village-count">불러오는 중</small></div>
       <ul class="village-list" id="village-list"></ul>
-      <div class="map-note">지도는 정지 상태에서 GPU를 계속 사용하지 않습니다. 마을과 지형이 추가되면 같은 좌표계에 반영됩니다.</div>
+      <div class="map-note">실제 시즌의 거점과 지형은 이 지도에 나오지 않는다.</div>
     </aside>
   </div>
 </main>
 <script>
 (async()=>{
   const viewport=document.getElementById('atlas-viewport'),overviewLayer=document.getElementById('overview-layer'),tileLayer=document.getElementById('tile-layer'),markerLayer=document.getElementById('marker-layer'),border=document.getElementById('world-border'),loading=document.getElementById('map-loading'),list=document.getElementById('village-list'),count=document.getElementById('village-count'),zoomLabel=document.getElementById('zoom-label'),centerCoords=document.getElementById('center-coords'),zoomOut=document.getElementById('zoom-out'),zoomIn=document.getElementById('zoom-in'),stepButtons=[...document.querySelectorAll('[data-zoom]')];
-  const zoomLevels=[{factor:1,label:'1단계 · 전체 8000 × 8000블록'},{factor:1.8,label:'2단계 · 권역 약 4400블록'},{factor:3.5,label:'3단계 · 마을 약 2300블록'},{factor:7,label:'4단계 · 상세 약 1100블록'}];
+  const zoomLevels=[{factor:1,label:'전체 보기'},{factor:1.8,label:'넓게 보기'},{factor:3.5,label:'가깝게 보기'},{factor:7,label:'자세히 보기'}];
   const lods=[{level:3,worldSize:12500,min:-1,max:0},{level:2,worldSize:2500,min:-2,max:1},{level:1,worldSize:500,min:-9,max:8}];
   let world=null,zoomIndex=0,centerX=0,centerZ=0,dragging=false,lastX=0,lastY=0,pointerX=0,pointerY=0,lastWheel=0,renderQueued=false,firstTile=false;
   const tiles=new Map();
@@ -88,7 +91,7 @@ body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}button,a{font:
   function stopDrag(){dragging=false;viewport.classList.remove('dragging')}viewport.addEventListener('pointerup',stopDrag);viewport.addEventListener('pointercancel',stopDrag);viewport.addEventListener('keydown',event=>{if(event.key==='+'||event.key==='=')setZoom(zoomIndex+1);else if(event.key==='-')setZoom(zoomIndex-1);else if(event.key==='0'){centerX=0;centerZ=0;setZoom(0);queueRender()}else return;event.preventDefault()});
   function preloadRegionTiles(){if(navigator.connection&&navigator.connection.saveData)return;for(let x=-2;x<=1;x++)for(let z=-2;z<=1;z++){const image=new Image();image.decoding='async';image.src=tilePath(2,x,z)}}
   try{const response=await fetch('data/world-map.json');if(!response.ok)throw new Error('map data unavailable');const data=await response.json();world=data.world;for(const village of data.villages){const marker=document.createElement('button');marker.className='marker';marker.type='button';marker.dataset.label=village.label;marker.dataset.x=village.x;marker.dataset.z=village.z;marker.style.setProperty('--marker',village.color);marker.setAttribute('aria-label',`${village.label}, X ${village.x}, Z ${village.z}`);marker.addEventListener('click',()=>{centerX=village.x;centerZ=village.z;if(zoomIndex<2)zoomIndex=2;document.querySelectorAll('.marker.selected').forEach(item=>item.classList.remove('selected'));marker.classList.add('selected');queueRender()});markerLayer.appendChild(marker);
-      const item=document.createElement('li'),button=document.createElement('button');button.type='button';button.style.setProperty('--marker',village.color);button.innerHTML=`<span class="swatch"></span><div><b>${village.label}</b><small>${village.biome}<br>X ${village.x} · Z ${village.z}</small></div>`;button.addEventListener('click',()=>marker.click());item.appendChild(button);list.appendChild(item)}count.textContent=`${data.villages.length}곳 · 시드 ${world.seed}`;new ResizeObserver(queueRender).observe(viewport);queueRender();if('requestIdleCallback'in window)requestIdleCallback(preloadRegionTiles,{timeout:2500});else setTimeout(preloadRegionTiles,1200)}catch(error){loading.textContent='지도 자료를 불러오지 못했습니다';count.textContent='좌표 자료 준비 중';console.error(error)}
+      const item=document.createElement('li'),button=document.createElement('button');button.type='button';button.style.setProperty('--marker',village.color);button.innerHTML=`<span class="swatch"></span><div><b>${village.label}</b><small>X ${village.x} · Z ${village.z}</small></div>`;button.addEventListener('click',()=>marker.click());item.appendChild(button);list.appendChild(item)}count.textContent=`${data.villages.length}곳`;new ResizeObserver(queueRender).observe(viewport);queueRender();if('requestIdleCallback'in window)requestIdleCallback(preloadRegionTiles,{timeout:2500});else setTimeout(preloadRegionTiles,1200)}catch(error){loading.textContent='지도를 불러오지 못했다. 잠시 뒤 다시 열어 보자.';count.textContent='불러오지 못함';console.error(error)}
 })();
 </script>
 </body>
