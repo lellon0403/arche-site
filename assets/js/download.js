@@ -23,9 +23,11 @@
   function renderClient(client) {
     if (!client) return;
 
-    setText('[data-release-status]', '최신 배포');
+    setText('[data-release-status]', '지금 받을 수 있음');
+    var status = document.querySelector('[data-release-status]');
+    if (status) status.classList.add('live');
     setText('[data-release-title]', client.title || '아르케 클라이언트');
-    setText('[data-release-description]', client.description || '서버 접속에 필요한 최신 클라이언트입니다.');
+    setText('[data-release-description]', client.description || '서버에 접속할 때 쓰는 최신 클라이언트다.');
 
     var meta = document.querySelector('[data-release-meta]');
     meta.replaceChildren();
@@ -37,7 +39,7 @@
     button.href = client.file;
     button.setAttribute('download', '');
     button.removeAttribute('aria-disabled');
-    button.textContent = (client.version || '최신 버전') + ' 다운로드';
+    button.textContent = (client.version ? client.version + ' ' : '') + '받기';
 
     fillNotes(document.querySelector('[data-release-notes]'), client.notes);
 
@@ -70,7 +72,7 @@
       var link = document.createElement('a');
       link.href = patch.file;
       link.setAttribute('download', '');
-      link.textContent = patch.size ? '다운로드 · ' + patch.size : '다운로드';
+      link.textContent = patch.size ? '받기 (' + patch.size + ')' : '받기';
 
       item.append(time, copy, link);
       list.appendChild(item);
@@ -83,12 +85,19 @@
       button.dataset.copyServer = serverAddress;
       var value = button.querySelector('b');
       if (value) value.textContent = serverAddress;
+      button.setAttribute('aria-label', '서버 주소 ' + serverAddress + ' 복사');
+      var label = button.querySelector('[data-copy-label]');
+      var resetTimer = null;
 
       button.addEventListener('click', function () {
         navigator.clipboard.writeText(serverAddress).then(function () {
           button.dataset.copied = 'true';
-          var label = button.querySelector('span');
           if (label) label.textContent = '복사됨';
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(function () {
+            button.dataset.copied = 'false';
+            if (label) label.textContent = '복사';
+          }, 2400);
         }).catch(function () {
           window.prompt('서버 주소를 복사하세요.', serverAddress);
         });

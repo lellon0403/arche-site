@@ -1,63 +1,91 @@
 (function () {
-  var tabs = document.querySelectorAll('#tabs button');
-  var lines = {};
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  document.querySelectorAll('.line').forEach(function (element) {
-    lines[element.id.replace('line-', '')] = element;
-  });
+  /* 직업 계열 탭 — 클릭과 방향키 */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"][data-line]'));
 
-  tabs.forEach(function (button) {
-    button.addEventListener('click', function () {
-      var key = button.dataset.line;
-      tabs.forEach(function (item) {
-        item.setAttribute('aria-selected', String(item === button));
-      });
-      Object.keys(lines).forEach(function (line) {
-        lines[line].hidden = line !== key;
-      });
+  function selectTab(tab, focus) {
+    tabs.forEach(function (item) {
+      var selected = item === tab;
+      item.setAttribute('aria-selected', String(selected));
+      item.tabIndex = selected ? 0 : -1;
+      var panel = document.getElementById(item.getAttribute('aria-controls'));
+      if (!panel) return;
+      panel.hidden = !selected;
+      panel.classList.toggle('is-entering', selected && !reduceMotion);
+    });
+    if (focus) tab.focus();
+    tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  tabs.forEach(function (tab, index) {
+    tab.addEventListener('click', function () { selectTab(tab, false); });
+    tab.addEventListener('keydown', function (event) {
+      var next = null;
+      if (event.key === 'ArrowRight') next = tabs[(index + 1) % tabs.length];
+      else if (event.key === 'ArrowLeft') next = tabs[(index - 1 + tabs.length) % tabs.length];
+      else if (event.key === 'Home') next = tabs[0];
+      else if (event.key === 'End') next = tabs[tabs.length - 1];
+      if (!next) return;
+      event.preventDefault();
+      selectTab(next, true);
     });
   });
 
+  /* 서버 주소 복사 */
   document.querySelectorAll('[data-copy-server]').forEach(function (button) {
+    var label = button.querySelector('[data-copy-label]') || button.querySelector('span');
+    var resetTimer = null;
     button.addEventListener('click', function () {
       var address = button.dataset.copyServer;
+      if (!navigator.clipboard) {
+        window.prompt('서버 주소를 복사하세요.', address);
+        return;
+      }
       navigator.clipboard.writeText(address).then(function () {
         button.dataset.copied = 'true';
-        var label = button.querySelector('span');
         if (label) label.textContent = '복사됨';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(function () {
+          button.dataset.copied = 'false';
+          if (label) label.textContent = '복사';
+        }, 2400);
       }).catch(function () {
         window.prompt('서버 주소를 복사하세요.', address);
       });
     });
   });
 
-  var mapLink = document.querySelector('[data-map-link]');
-  if (mapLink) {
-    var mapPrefetched = false;
-    var prefetchMap = function () {
-      if (mapPrefetched) return;
-      mapPrefetched = true;
-      [
-        ['map.html', 'document'],
-        ['data/world-map.json', 'fetch'],
-        ['map-tiles/3/x-1/z-1.webp', 'image'],
-        ['map-tiles/3/x-1/z0.webp', 'image'],
-        ['map-tiles/3/x0/z-1.webp', 'image'],
-        ['map-tiles/3/x0/z0.webp', 'image'],
-        ['map-tiles/2/x-1/z-1.webp', 'image'],
-        ['map-tiles/2/x-1/z0.webp', 'image'],
-        ['map-tiles/2/x0/z-1.webp', 'image'],
-        ['map-tiles/2/x0/z0.webp', 'image']
-      ].forEach(function (asset) {
-        var link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = asset[0];
-        link.as = asset[1];
-        document.head.appendChild(link);
+  /* 섹션 등장 — 화면에 들어올 때 한 번 */
+  var revealItems = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window) || reduceMotion) {
+    revealItems.forEach(function (item) { item.classList.add('is-in'); });
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        revealObserver.unobserve(entry.target);
       });
-    };
-    mapLink.addEventListener('pointerenter', prefetchMap, { once: true });
-    mapLink.addEventListener('focus', prefetchMap, { once: true });
-    mapLink.addEventListener('touchstart', prefetchMap, { once: true, passive: true });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    revealItems.forEach(function (item) { revealObserver.observe(item); });
+  }
+
+  /* 현재 읽는 섹션을 메뉴에 표시 */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav nav a[href^="#"]'));
+  if (navLinks.length && 'IntersectionObserver' in window) {
+    var byId = {};
+    navLinks.forEach(function (link) { byId[link.getAttribute('href').slice(1)] = link; });
+    var sectionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var link = byId[entry.target.id];
+        if (!link || !entry.isIntersecting) return;
+        navLinks.forEach(function (item) { item.classList.toggle('is-current', item === link); });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(byId).forEach(function (id) {
+      var section = document.getElementById(id);
+      if (section) sectionObserver.observe(section);
+    });
   }
 })();

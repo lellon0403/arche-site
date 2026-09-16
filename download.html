@@ -3,80 +3,63 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0E1117">
-<title>아르케 다운로드 — ARCHE</title>
-<meta name="description" content="아르케 서버 접속 주소와 최신 클라이언트·패치 다운로드를 확인합니다.">
+<meta name="theme-color" content="#0B0E13">
+<title>다운로드 · 아르케 ARCHE</title>
+<meta name="description" content="아르케 서버 주소와 클라이언트, 패치 파일을 받는 곳.">
 <link rel="canonical" href="https://lellon.kr/download.html">
 <link rel="icon" href="favicon.ico?v=1" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=1">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/download.css">
-<script src="assets/js/download.js" defer></script>
+<link rel="preload" href="fonts/MaruBuri-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css?v=3">
+<link rel="stylesheet" href="assets/css/download.css?v=3">
+<script src="assets/js/download.js?v=3" defer></script>
 </head>
 <body>
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="index.html">
-      <img src="assets/arche-symbol-trinity.webp" alt="">
+      <img src="assets/arche-symbol-trinity.webp" alt="" width="30" height="30">
       <span>아르케</span><small>ARCHE</small>
     </a>
     <nav aria-label="주요 메뉴">
       <a href="index.html">게임 소개</a>
-      <a href="download.html" aria-current="page">다운로드</a>
+      <a class="nav-cta" href="download.html" aria-current="page">다운로드</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <p class="tag">Client Portal</p>
-      <h1>아르케에 오를 준비</h1>
-      <p class="lead">서버 접속에 필요한 클라이언트와 이후 배포되는 패치를 이곳에서 확인할 수 있습니다.</p>
-    </div>
-    <div class="gate-mark" aria-hidden="true">
-      <img src="assets/arche-symbol-trinity.webp" alt="">
-    </div>
-  </div>
-</section>
-
-<section class="connect" aria-labelledby="connect-title">
-  <div class="wrap">
-    <div class="connect-copy">
-      <small>Server Connection</small>
-      <strong id="connect-title">서버 접속 주소</strong>
-    </div>
-    <button class="server-copy" type="button" data-copy-server="play.lellon.kr">
-      <b>play.lellon.kr</b><span>주소 복사</span>
-    </button>
-  </div>
-</section>
-
 <main>
-  <div class="wrap">
-    <section aria-labelledby="client-title">
-      <div class="section-head">
-        <div>
-          <p class="tag">Latest Client</p>
-          <h2 id="client-title">클라이언트 다운로드</h2>
-        </div>
-        <p>배포 파일이 등록되면 최신 버전과 변경 내용을 이 페이지에서 바로 확인할 수 있습니다.</p>
+  <section class="dl-hero" aria-labelledby="dl-title">
+    <div class="wrap">
+      <div class="dl-copy">
+        <h1 id="dl-title">아르케로<br>올라갈 준비</h1>
+        <p>서버에 들어가는 데 필요한 것은 두 가지다. 서버 주소, 그리고 아르케 전용 클라이언트.</p>
+        <button class="server-copy" type="button" data-copy-server="play.lellon.kr" aria-label="서버 주소 play.lellon.kr 복사">
+          <small>서버 주소</small><b>play.lellon.kr</b><span data-copy-label>복사</span>
+        </button>
       </div>
+      <div class="dl-mark" aria-hidden="true">
+        <img src="assets/arche-symbol-trinity.webp" alt="" width="360" height="360">
+      </div>
+    </div>
+  </section>
+
+  <section class="dl-body" aria-labelledby="client-title">
+    <div class="wrap">
+      <h2 id="client-title">클라이언트</h2>
 
       <article class="release" id="current-release" aria-live="polite">
         <div class="release-main">
-          <span class="status" data-release-status>배포 준비 중</span>
+          <span class="status" data-release-status>준비 중</span>
           <h3 data-release-title>아르케 클라이언트</h3>
-          <p class="release-description" data-release-description>현재 공개된 클라이언트 파일이 없습니다. 첫 배포가 등록되면 이곳에 다운로드 버튼이 열립니다.</p>
+          <p class="release-description" data-release-description>아직 받을 수 있는 파일이 없다. 첫 배포가 올라오면 이 자리에 다운로드 버튼이 생긴다.</p>
           <div class="release-meta" data-release-meta></div>
-          <a class="download-button" data-release-download aria-disabled="true">아직 다운로드할 수 없습니다</a>
+          <a class="btn solid download-button" data-release-download aria-disabled="true">아직 받을 수 없음</a>
         </div>
-        <aside class="release-side">
-          <h3>이번 배포</h3>
+        <aside class="release-side" aria-labelledby="notes-title">
+          <h3 id="notes-title">이번 배포에서 달라진 점</h3>
           <ul class="release-notes" data-release-notes></ul>
           <div class="hash" data-release-hash hidden>
             <small>SHA-256</small>
@@ -84,29 +67,21 @@
           </div>
         </aside>
       </article>
-    </section>
 
-    <section class="history" aria-labelledby="history-title">
-      <div class="section-head">
-        <div>
-          <p class="tag">Patch Archive</p>
-          <h2 id="history-title">이전 패치</h2>
-        </div>
-        <p>새 패치가 배포되면 버전별 파일과 변경 기록이 이곳에 쌓입니다.</p>
+      <h2 class="history-title" id="history-title">지난 패치</h2>
+      <div class="history-list" data-patch-list aria-labelledby="history-title">
+        <p class="empty">아직 올라온 패치가 없다.</p>
       </div>
-      <div class="history-list" data-patch-list>
-        <p class="empty">아직 배포된 패치가 없습니다.</p>
-      </div>
-    </section>
 
-    <p class="notice">다운로드 파일은 이 사이트에서 안내한 버전만 사용하세요. 서버 접속 주소는 <strong>play.lellon.kr</strong>입니다.</p>
-  </div>
+      <p class="notice">파일은 이 페이지에서 받은 것만 사용하자. 다른 곳에서 받은 클라이언트로는 접속이 되지 않을 수 있다.</p>
+    </div>
+  </section>
 </main>
 
-<footer>
+<footer class="site-foot">
   <div class="wrap">
-    <span>아르케 ARCHE</span>
-    <span>lellon.kr · play.lellon.kr</span>
+    <span><b>아르케</b>&ensp;ARCHE</span>
+    <span>lellon.kr</span>
   </div>
 </footer>
 </body>
