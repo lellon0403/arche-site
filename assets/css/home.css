@@ -443,6 +443,27 @@
 .closing p{ max-width:30em; margin-top:18px; color:var(--chalk-2); font-size:17.5px; }
 .closing .hero-actions{ justify-content:center; }
 
+/* ═══ 봉인 — 직접 찾아야 하는 것 ═══════════════════════════════════ */
+/* 스포일러를 지운 자리. 있다는 사실만 남기고 내용은 남기지 않는다. */
+.seal{
+  font-family:var(--f-data); font-weight:500;
+  letter-spacing:.22em; color:#6F6A7E;
+  -webkit-user-select:none; user-select:none;
+}
+h2 .seal, h3 .seal{ font-size:.82em; vertical-align:.06em; }
+.sealed dt .seal, .sealed dd .seal{ font-size:.92em; }
+.gate .state.seal{ border-color:rgba(156,143,194,.22); color:#6F6A7E; letter-spacing:.22em; }
+
+.first-steps li.sealed p{ margin-top:10px; }
+.ledger dl > div.sealed dd{ color:#6F6A7E; }
+
+.gate.final.sealed{
+  grid-template-columns:minmax(0,1fr);
+  place-items:center; text-align:center;
+  min-height:clamp(180px,22vw,260px);
+}
+.gate.final.sealed h3{ margin-top:4px; }
+
 /* ═══ 태블릿 ══════════════════════════════════════════════════════ */
 @media (max-width:1040px){
   .first-steps{ grid-template-columns:repeat(3,minmax(0,1fr)); }
